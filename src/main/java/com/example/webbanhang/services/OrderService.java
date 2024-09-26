@@ -8,11 +8,11 @@ import com.example.webbanhang.models.OrderStatus;
 import com.example.webbanhang.models.User;
 import com.example.webbanhang.repositories.OrderRepository;
 import com.example.webbanhang.repositories.UserRepository;
-import com.example.webbanhang.responses.OrderResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +25,7 @@ public class OrderService implements IOrderService{
     private final ModelMapper modelMapper;
 
     @Override
-    public OrderResponse createOrder(OrderDTO orderDTO) throws Exception {
+    public Order createOrder(OrderDTO orderDTO) throws Exception {
         Order order = new Order();
         //tìm xem user id có tồn tại không
         User user = userRepository
@@ -43,32 +43,54 @@ public class OrderService implements IOrderService{
         order.setOrderDate(new Date());//Lấy thời điểm hiện tại
         order.setStatus(OrderStatus.PENDING);
         //Kiểm tra shipping date phải >= ngày hm nay
-        Date shippingDate = orderDTO.getShippingDate();
-        if (shippingDate == null || shippingDate.before(new Date())){
-            throw new DataNotFoundException("Thời gian phải lớn hơn hoặc bằng hôm nay!");
+//        Date shippingDate = orderDTO.getShippingDate() == null ? new Date(): orderDTO.getShippingDate();
+//        if (shippingDate.before(new Date())){
+//            throw new DataNotFoundException("Thời gian phải lớn hơn hoặc bằng hôm nay!");
+//        }
+        LocalDate shippingDate = orderDTO.getShippingDate() == null ? LocalDate.now() : orderDTO.getShippingDate();
+        if (shippingDate.isBefore(LocalDate.now()))
+        {
+            throw new DataNotFoundException("Thời gian phải lớn hơn hoặc bằng hôm nay");
         }
+        order.setShippingDate(shippingDate);
         order.setActive(true);
         orderRepository.save(order);
-        return modelMapper.map(order, OrderResponse.class);
+        return order;
     }
 
     @Override
-    public OrderResponse getOrder(Long id) {
-        return null;
+    public Order getOrder(Long id) {
+        return orderRepository.findById(id).orElse(null);
     }
 
     @Override
-    public OrderResponse updateOrder(Long id, OrderDTO orderDTO) {
-        return null;
+    public Order updateOrder(Long id, OrderDTO orderDTO) throws DataNotFoundException{
+        Order order = orderRepository.findById(id).orElseThrow(() ->
+                new DataNotFoundException("Cannot find order with id: " + id));
+        User existingUser = userRepository.findById(orderDTO.getUserId()).orElseThrow(() ->
+                new DataNotFoundException("Cannot find user with id: " + orderDTO.getUserId()));
+        //Tạo một luồng để ánh xạ riêng để kiểm soát việc ánh xạ
+        modelMapper.typeMap(OrderDTO.class, Order.class)
+                .addMappings(mapper -> mapper.skip(Order::setId));
+        //Cập nhật các trường của đơn hàng từ orderDTO
+        modelMapper.map(orderDTO, order);
+        order.setUser(existingUser);
+        return orderRepository.save(order);
     }
 
     @Override
     public void deleteOrder(Long id) {
-
+        Order order = orderRepository.findById(id).orElse(null);
+        //Xoá mềm
+        if (order != null)
+        {
+            order.setActive(false);
+            orderRepository.save(order);
+        }
     }
 
     @Override
-    public List<OrderResponse> getAllOrders(Long userId) {
-        return null;
+    public List<Order> findByUserId(Long userId) {
+        return orderRepository.findByUserId(userId);
     }
 }
