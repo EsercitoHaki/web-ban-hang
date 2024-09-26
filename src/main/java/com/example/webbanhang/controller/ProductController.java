@@ -191,10 +191,10 @@ public class ProductController {
     }
 
     //Thêm dữ liệu fake vào trong bảng
-    //PostMapping("/generateFakeProducts")
+//    @PostMapping("/generateFakeProducts")
     private ResponseEntity<String> generateFakeProducts(){
         Faker faker = new Faker();
-        for (int i = 0; i < 1000000; i++){
+        for (int i = 0; i < 10000; i++){
             String productName = faker.commerce().productName();
             if (productService.existsByName(productName)){
                 continue;
