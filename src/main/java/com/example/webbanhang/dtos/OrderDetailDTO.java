@@ -20,13 +20,13 @@ public class OrderDetailDTO {
     private Long productID;
 
     @Min(value = 0, message = "Price tối thiểu phải lớn hơn hoặc bằng 0")
-    private Long price;
+    private Float price;
 
-    @JsonProperty("number_of_product")
+    @JsonProperty("number_of_products")
     @Min(value = 1, message = "Number Of Product tối thiểu phải lớn hơn 0")
-    private int numberOfProduct;
+    private int numberOfProducts;
 
     @JsonProperty("total_money")
     @Min(value = 1, message = "Oder ID tối thiểu phải lớn hơn 0")
-    private int totalMoney;
+    private Float totalMoney;
 }
