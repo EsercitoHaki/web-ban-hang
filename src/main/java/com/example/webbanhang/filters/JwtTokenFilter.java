@@ -1,6 +1,7 @@
 package com.example.webbanhang.filters;
 
 import com.example.webbanhang.components.JwtTokenUtil;
+import com.example.webbanhang.models.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,7 +49,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             final String phoneNumber = jwtTokenUtil.extractPhoneNumber(token);
             if (phoneNumber != null && SecurityContextHolder.getContext().getAuthentication() == null)
             {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(phoneNumber);
+                User userDetails = (User) userDetailsService.loadUserByUsername(phoneNumber);
                 if (jwtTokenUtil.validateToken(token, userDetails))
                 {
                     UsernamePasswordAuthenticationToken authenticationToken =
