@@ -1,6 +1,6 @@
 package com.example.webbanhang.services;
 
-import com.example.webbanhang.components.JwtTokenUtil;
+import com.example.webbanhang.components.JwtTokenUtils;
 import com.example.webbanhang.dtos.UserDTO;
 import com.example.webbanhang.exceptions.DataNotFoundException;
 import com.example.webbanhang.exceptions.PremissionDenyException;
@@ -24,7 +24,7 @@ public class UserService implements IUserService{
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenUtils jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
     @Override
     public User createUser(UserDTO userDTO) throws Exception {

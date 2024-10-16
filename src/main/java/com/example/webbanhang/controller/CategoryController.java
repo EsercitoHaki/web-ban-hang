@@ -1,16 +1,23 @@
 package com.example.webbanhang.controller;
 
+import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.dtos.CategoryDTO;
 import com.example.webbanhang.models.Category;
+import com.example.webbanhang.responses.UpdateCategoryResponse;
 import com.example.webbanhang.services.CategoryService;
+import com.example.webbanhang.utils.MessageKeys;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.LocaleResolver;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("${api.prefix}/categories")
@@ -18,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService categoryService;
+    private final LocalizationUtils localizationUtils;
 
     @PostMapping("")
     //Nếu tham số truyn vào là 1 object thì sao ? => Data Transfer Object = Request Object
@@ -46,12 +54,15 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCategory(
+    public ResponseEntity<UpdateCategoryResponse> updateCategory(
             @PathVariable Long id,
-            @Valid @RequestBody CategoryDTO categoryDTO
+            @Valid @RequestBody CategoryDTO categoryDTO,
+            HttpServletRequest request
     ){
         categoryService.updateCategory(id, categoryDTO);
-        return ResponseEntity.ok("Cập nhật category thành công");
+        return ResponseEntity.ok(UpdateCategoryResponse.builder()
+                        .message(localizationUtils.getLocalizedMessage(MessageKeys.UPDATE_CATEGORY_SUCCESSFULLY))
+                .build());
     }
 
     @DeleteMapping("/{id}")

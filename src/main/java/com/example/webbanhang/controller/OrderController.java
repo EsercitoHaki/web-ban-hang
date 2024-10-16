@@ -1,8 +1,10 @@
 package com.example.webbanhang.controller;
 
+import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.dtos.OrderDTO;
 import com.example.webbanhang.models.Order;
 import com.example.webbanhang.services.IOrderService;
+import com.example.webbanhang.utils.MessageKeys;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final IOrderService orderService;
+    private final LocalizationUtils localizationUtils;
     @PostMapping("")
     public ResponseEntity<?> createOrder(
             @Valid @RequestBody OrderDTO orderDTO,
@@ -66,16 +69,16 @@ public class OrderController {
             @Valid @RequestBody OrderDTO orderDTO){
         try {
             Order order = orderService.updateOrder(id, orderDTO);
-            return ResponseEntity.ok("Cập nhật thông tin 1 order");
+            return ResponseEntity.ok(order);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteOrder(@Valid @PathVariable long id){
+    public ResponseEntity<String> deleteOrder(@Valid @PathVariable long id){
         //Xoá mềm => cập nhật active = false
         orderService.deleteOrder(id);
-        return ResponseEntity.ok("Xoá order thành công");
+        return ResponseEntity.ok(localizationUtils.getLocalizedMessage(MessageKeys.DELETE_ORDER_SUCCESSFULLY));
     }
 }
