@@ -1,6 +1,5 @@
 package com.example.webbanhang.configurations;
 
-import com.example.webbanhang.models.User;
 import com.example.webbanhang.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

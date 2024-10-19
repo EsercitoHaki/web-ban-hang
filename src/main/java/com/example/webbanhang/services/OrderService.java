@@ -29,7 +29,7 @@ public class OrderService implements IOrderService{
         //tìm xem user id có tồn tại không
         User user = userRepository
                 .findById(orderDTO.getUserId())
-                .orElseThrow(() -> new DataNotFoundException("Không thể tìm thấy user với id: " + orderDTO.getUserId()));
+                .orElseThrow(() -> new DataNotFoundException("Cannot find user with id: " + orderDTO.getUserId()));
 
         //convert orderDTO => Order
         //Sử dụng thư viện Model Mapper
@@ -49,7 +49,7 @@ public class OrderService implements IOrderService{
         LocalDate shippingDate = orderDTO.getShippingDate() == null ? LocalDate.now() : orderDTO.getShippingDate();
         if (shippingDate.isBefore(LocalDate.now()))
         {
-            throw new DataNotFoundException("Thời gian phải lớn hơn hoặc bằng hôm nay");
+            throw new DataNotFoundException("Data must be at least today !");
         }
         order.setShippingDate(shippingDate);
         order.setActive(true);

@@ -1,6 +1,7 @@
 package com.example.webbanhang.services;
 
 import com.example.webbanhang.components.JwtTokenUtils;
+import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.dtos.UserDTO;
 import com.example.webbanhang.exceptions.DataNotFoundException;
 import com.example.webbanhang.exceptions.PremissionDenyException;
@@ -8,6 +9,7 @@ import com.example.webbanhang.models.Role;
 import com.example.webbanhang.models.User;
 import com.example.webbanhang.repositories.RoleRepository;
 import com.example.webbanhang.repositories.UserRepository;
+import com.example.webbanhang.utils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,12 +28,13 @@ public class UserService implements IUserService{
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtils jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
+    private final LocalizationUtils localizationUtils;
     @Override
     public User createUser(UserDTO userDTO) throws Exception {
         String phoneNumber = userDTO.getPhoneNumber();
         //Kim tra xem có số điện thoại đã tồn tại hay chưa
         if (userRepository.existsByPhoneNumber(phoneNumber)){
-            throw new DataIntegrityViolationException("Số điện thoại đã tồn tại");
+            throw new DataIntegrityViolationException("Phone number already exists");
         }
         Role role = roleRepository.findById(userDTO.getRoleId())
                 .orElseThrow(() -> new DataNotFoundException("Role not found"));
@@ -60,7 +63,7 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public String login(String phoneNumber, String password) throws Exception {
+    public String login(String phoneNumber, String password, Long roleId) throws Exception {
         Optional<User> optionalUser = userRepository.findByPhoneNumber(phoneNumber);
         if (optionalUser.isEmpty())
         {
@@ -68,6 +71,7 @@ public class UserService implements IUserService{
         }
         //return optionalUser.get();
         User existingUser = optionalUser.get();
+
         if (existingUser.getFacebookAccountId() == 0 && existingUser.getGoogleAccountId() == 0)
         {
             if (!passwordEncoder.matches(password, existingUser.getPassword()))
@@ -75,6 +79,19 @@ public class UserService implements IUserService{
                 throw new BadCredentialsException("Wrong phone number or password");
             }
         }
+
+        Optional<Role> optionalRole = roleRepository.findById(roleId);
+
+        if (optionalRole.isEmpty() || !roleId.equals(existingUser.getRole().getId()))
+        {
+            throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.ROLE_DOES_NOT_EXISTS));
+        }
+
+        if(!optionalUser.get().isActive())
+        {
+            throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.USER_IS_LOCKED));
+        }
+
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 phoneNumber, password,
                 existingUser.getAuthorities()

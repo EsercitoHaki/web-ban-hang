@@ -55,8 +55,8 @@ public class JwtTokenUtils {
         SecureRandom random = new SecureRandom();
         byte[] keyBytes = new byte[32];
         random.nextBytes(keyBytes);
-        String secretKey = Encoders.BASE64.encode(keyBytes);
-        return secretKey;
+        //String secretKey = Encoders.BASE64.encode(keyBytes);
+        return Encoders.BASE64.encode(keyBytes);
     }
 
     private Claims extractAllClaims(String token)

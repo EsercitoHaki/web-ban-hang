@@ -59,15 +59,15 @@ public class CategoryController {
             @Valid @RequestBody CategoryDTO categoryDTO,
             HttpServletRequest request
     ){
+        UpdateCategoryResponse updateCategoryResponse = new UpdateCategoryResponse();
         categoryService.updateCategory(id, categoryDTO);
-        return ResponseEntity.ok(UpdateCategoryResponse.builder()
-                        .message(localizationUtils.getLocalizedMessage(MessageKeys.UPDATE_CATEGORY_SUCCESSFULLY))
-                .build());
+        updateCategoryResponse.setMessage(localizationUtils.getLocalizedMessage(MessageKeys.UPDATE_CATEGORY_SUCCESSFULLY));
+        return ResponseEntity.ok(updateCategoryResponse);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long id){
         categoryService.deleteCategory(id);
-        return ResponseEntity.ok("Xoá category có id: " + id + "thành công");
+        return ResponseEntity.ok(localizationUtils.getLocalizedMessage(MessageKeys.DELETE_CATEGORY_SUCCESSFULLY));
     }
 }

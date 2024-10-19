@@ -31,7 +31,7 @@ public class ProductService implements IProductService{
         Category existingCategory = categoryRepository.findById(productDTO.getCategoryId())
                 .orElseThrow(() ->
                         new DataNotFoundException(
-                                "Không tìm thấy category với id: " + productDTO.getCategoryId()));
+                                "Cannot find category with id: " + productDTO.getCategoryId()));
         Product newProduct = Product.builder()
                 .name(productDTO.getName())
                 .price(productDTO.getPrice())
@@ -46,7 +46,7 @@ public class ProductService implements IProductService{
     public Product getProductById(long productId) throws Exception{
         return productRepository.findById(productId)
                 .orElseThrow(() -> new DataNotFoundException(
-                        "Không tìm thấy product with id = " + productId
+                        "Cannot find product with id = " + productId
                 ));
     }
 
@@ -66,7 +66,7 @@ public class ProductService implements IProductService{
             Category existingCategory = categoryRepository.findById(productDTO.getCategoryId())
                     .orElseThrow(() ->
                             new DataNotFoundException(
-                                    "Không tìm thấy category với id: " + productDTO.getCategoryId()));
+                                    "Cannot find category with id: " + productDTO.getCategoryId()));
             existingProduct.setName(productDTO.getName());
             existingProduct.setCategory(existingCategory);
             existingProduct.setPrice(productDTO.getPrice());
@@ -95,7 +95,7 @@ public class ProductService implements IProductService{
         Product existingProduct = productRepository.findById(productId)
                 .orElseThrow(() ->
                         new DataNotFoundException(
-                                "Không tìm thấy product với id: " + productImageDTO.getProductId()));
+                                "Cannot find product with id: " + productImageDTO.getProductId()));
         ProductImage newProductImage = ProductImage.builder()
                 .product(existingProduct)
                 .imageUrl(productImageDTO.getImageUrl())
@@ -103,7 +103,7 @@ public class ProductService implements IProductService{
         //Không cho insert quá 5 ảnh cho 1 sản phẩm
         int size = productImageRepository.findByProductId(productId).size();
         if (size >= MAXIMUM_IMAGES_PER_PRODUCT){
-            throw new InvalidParamException("Số lượng ảnh không quá " + MAXIMUM_IMAGES_PER_PRODUCT);
+            throw new InvalidParamException("Number of images must be " + MAXIMUM_IMAGES_PER_PRODUCT);
         }
         return productImageRepository.save(newProductImage);
     }

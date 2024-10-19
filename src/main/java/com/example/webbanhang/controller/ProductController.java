@@ -1,5 +1,6 @@
 package com.example.webbanhang.controller;
 
+import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.dtos.ProductDTO;
 import com.example.webbanhang.dtos.ProductImageDTO;
 import com.example.webbanhang.models.Product;
@@ -7,9 +8,11 @@ import com.example.webbanhang.models.ProductImage;
 import com.example.webbanhang.responses.ProductListResponse;
 import com.example.webbanhang.responses.ProductResponse;
 import com.example.webbanhang.services.IProductService;
+import com.example.webbanhang.utils.MessageKeys;
 import com.github.javafaker.Faker;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -38,6 +41,7 @@ import static com.example.webbanhang.models.ProductImage.MAXIMUM_IMAGES_PER_PROD
 @RequiredArgsConstructor
 public class ProductController {
     private final IProductService productService;
+    private final LocalizationUtils localizationUtils;
     @PostMapping("")
     public ResponseEntity<?> createProduct(
             @Valid @RequestBody ProductDTO productDTO,
@@ -67,7 +71,7 @@ public class ProductController {
             Product existingProduct = productService.getProductById(productId);
             files = files == null ? new ArrayList<MultipartFile>() : files;
             if (files.size() > MAXIMUM_IMAGES_PER_PRODUCT){
-                return ResponseEntity.badRequest().body("Bạn chỉ có thể upload tối đa 5 ảnh");
+                return ResponseEntity.badRequest().body(localizationUtils.getLocalizedMessage(MessageKeys.UPLOAD_IMAGES_MAX_5));
             }
             List<ProductImage> productImages = new ArrayList<>();
             for (MultipartFile file : files){
@@ -79,13 +83,13 @@ public class ProductController {
                 //Kiểm tra kích thước file và định dạng
                 if (file.getSize() > 10 * 1024 * 1024){ //Kích thước > 10MB
                     return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
-                            .body("Tập tin quá lớn! Kích thước tối đa là 10MB");
+                            .body(localizationUtils.getLocalizedMessage(MessageKeys.UPLOAD_IMAGES_FILE_LARGE));
                 }
                 //Kiểm tra file có phải là file ảnh không
                 String contentType = file.getContentType();
                 if (contentType == null || !contentType.startsWith("image/")){
                     return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-                            .body("Tập tin phải là một hình ảnh");
+                            .body(localizationUtils.getLocalizedMessage(MessageKeys.UPLOAD_IMAGES_FILE_MUST_BE_IMAGE));
                 }
                 //Lưu file và cập nhật thumbnail trong DTO
                 String filename = storeFile(file);//Thay thế hàm này với code để lưu file
@@ -107,12 +111,32 @@ public class ProductController {
 
 //Postman
 //    {
-//        "name": "trăm năm cô đơn",
+//        "name": "iphone",
 //            "price": 250.34,
 //            "thumbnail": "",
 //            "description": "Test product",
 //            "category_id": 1
 //    }
+
+    @GetMapping("/images/{imageName}")
+    public ResponseEntity<?> viewImage(@PathVariable String imageName)
+    {
+        try {
+            java.nio.file.Path imagePath = Paths.get("uploads/" + imageName);
+            UrlResource resource = new UrlResource(imagePath.toUri());
+
+            if (resource.exists()) {
+                return ResponseEntity.ok()
+                       .contentType(MediaType.IMAGE_JPEG)
+                       .body(resource);
+            }else {
+                return ResponseEntity.notFound().build();
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     private String storeFile(MultipartFile file) throws IOException {
         if (!isImageFile(file) || file.getOriginalFilename() != null){
