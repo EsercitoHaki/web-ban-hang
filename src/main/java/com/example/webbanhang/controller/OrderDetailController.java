@@ -3,17 +3,13 @@ package com.example.webbanhang.controller;
 
 import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.dtos.OrderDetailDTO;
-import com.example.webbanhang.exceptions.DataNotFoundException;
 import com.example.webbanhang.models.OrderDetail;
 import com.example.webbanhang.responses.OrderDetailResponse;
 import com.example.webbanhang.services.OrderDetailService;
-import com.example.webbanhang.services.OrderService;
 import com.example.webbanhang.utils.MessageKeys;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
