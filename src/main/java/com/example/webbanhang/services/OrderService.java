@@ -8,6 +8,7 @@ import com.example.webbanhang.models.OrderStatus;
 import com.example.webbanhang.models.User;
 import com.example.webbanhang.repositories.OrderRepository;
 import com.example.webbanhang.repositories.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -63,6 +64,7 @@ public class OrderService implements IOrderService{
     }
 
     @Override
+    @Transactional
     public Order updateOrder(Long id, OrderDTO orderDTO) throws DataNotFoundException{
         Order order = orderRepository.findById(id).orElseThrow(() ->
                 new DataNotFoundException("Cannot find order with id: " + id));

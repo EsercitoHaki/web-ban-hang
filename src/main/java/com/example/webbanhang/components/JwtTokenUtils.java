@@ -50,13 +50,12 @@ public class JwtTokenUtils {
         return Keys.hmacShaKeyFor(bytes);
     }
 
-    private String generateSecretKey()
-    {
+    private String generateSecretKey() {
         SecureRandom random = new SecureRandom();
-        byte[] keyBytes = new byte[32];
+        byte[] keyBytes = new byte[32]; // 256-bit key
         random.nextBytes(keyBytes);
-        //String secretKey = Encoders.BASE64.encode(keyBytes);
-        return Encoders.BASE64.encode(keyBytes);
+        String secretKey = Encoders.BASE64.encode(keyBytes);
+        return secretKey;
     }
 
     private Claims extractAllClaims(String token)

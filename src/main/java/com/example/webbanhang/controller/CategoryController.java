@@ -3,6 +3,7 @@ package com.example.webbanhang.controller;
 import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.dtos.CategoryDTO;
 import com.example.webbanhang.models.Category;
+import com.example.webbanhang.responses.CategoryResponse;
 import com.example.webbanhang.responses.UpdateCategoryResponse;
 import com.example.webbanhang.services.CategoryService;
 import com.example.webbanhang.utils.MessageKeys;
@@ -30,15 +31,19 @@ public class CategoryController {
     public ResponseEntity<?> createCategory(
             @Valid @RequestBody CategoryDTO categoryDTO,
             BindingResult result){
+        CategoryResponse categoryResponse = new CategoryResponse();
         if (result.hasErrors()){
             List<String> errorMessages = result.getFieldErrors()
                     .stream()
                     .map(FieldError::getDefaultMessage)
                     .toList();
+            categoryResponse.setMessage(localizationUtils.getLocalizedMessage(MessageKeys.INSERT_CATEGORY_FAILED));
+            categoryResponse.setErrors(errorMessages);
             return ResponseEntity.badRequest().body(errorMessages);
         }
-        categoryService.createCategory(categoryDTO);
-        return ResponseEntity.ok("Thêm mới danh mục thành công");
+        Category category = categoryService.createCategory(categoryDTO);
+        categoryResponse.setCategory(category);
+        return ResponseEntity.ok(categoryResponse);
     }
 
     //Hiển thị tất cả các category

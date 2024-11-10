@@ -63,35 +63,31 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public String login(String phoneNumber, String password, Long roleId) throws Exception {
+    public String login(
+            String phoneNumber,
+            String password,
+            Long roleId
+    ) throws Exception {
         Optional<User> optionalUser = userRepository.findByPhoneNumber(phoneNumber);
-        if (optionalUser.isEmpty())
-        {
-            throw new DataNotFoundException("Invalid phone number / password");
+        if(optionalUser.isEmpty()) {
+            throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.WRONG_PHONE_PASSWORD));
         }
-        //return optionalUser.get();
+        //return optionalUser.get();//muốn trả JWT token ?
         User existingUser = optionalUser.get();
-
-        if (existingUser.getFacebookAccountId() == 0 && existingUser.getGoogleAccountId() == 0)
-        {
-            if (!passwordEncoder.matches(password, existingUser.getPassword()))
-            {
-                throw new BadCredentialsException("Wrong phone number or password");
+        //check password
+        if (existingUser.getFacebookAccountId() == 0
+                && existingUser.getGoogleAccountId() == 0) {
+            if(!passwordEncoder.matches(password, existingUser.getPassword())) {
+                throw new BadCredentialsException(localizationUtils.getLocalizedMessage(MessageKeys.WRONG_PHONE_PASSWORD));
             }
         }
-
         Optional<Role> optionalRole = roleRepository.findById(roleId);
-
-        if (optionalRole.isEmpty() || !roleId.equals(existingUser.getRole().getId()))
-        {
+        if(optionalRole.isEmpty() || !roleId.equals(existingUser.getRole().getId())) {
             throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.ROLE_DOES_NOT_EXISTS));
         }
-
-        if(!optionalUser.get().isActive())
-        {
+        if(!optionalUser.get().isActive()) {
             throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.USER_IS_LOCKED));
         }
-
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 phoneNumber, password,
                 existingUser.getAuthorities()
