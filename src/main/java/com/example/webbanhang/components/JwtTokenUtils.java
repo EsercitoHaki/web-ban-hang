@@ -43,13 +43,11 @@ public class JwtTokenUtils {
             //return null;
         }
     }
-
-    private Key getSignInKey()
-    {
-        byte[] bytes = Decoders.BASE64.decode(secretKey);//Decoders.BASE64.decode("Nq1t86/HZmr1Z8rFY/Smm3JUQxtUnHeahOHs+A5BVvk=");
+    private Key getSignInKey() {
+        byte[] bytes = Decoders.BASE64.decode(secretKey);
+        //Keys.hmacShaKeyFor(Decoders.BASE64.decode("TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI="));
         return Keys.hmacShaKeyFor(bytes);
     }
-
     private String generateSecretKey() {
         SecureRandom random = new SecureRandom();
         byte[] keyBytes = new byte[32]; // 256-bit key
@@ -57,33 +55,25 @@ public class JwtTokenUtils {
         String secretKey = Encoders.BASE64.encode(keyBytes);
         return secretKey;
     }
-
-    private Claims extractAllClaims(String token)
-    {
+    private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
-
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver)
-    {
+    public  <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = this.extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
-
     //check expiration
-    public boolean isTokenExpired(String token)
-    {
+    public boolean isTokenExpired(String token) {
         Date expirationDate = this.extractClaim(token, Claims::getExpiration);
         return expirationDate.before(new Date());
     }
-
     public String extractPhoneNumber(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-
     public boolean validateToken(String token, UserDetails userDetails) {
         String phoneNumber = extractPhoneNumber(token);
         return (phoneNumber.equals(userDetails.getUsername()))

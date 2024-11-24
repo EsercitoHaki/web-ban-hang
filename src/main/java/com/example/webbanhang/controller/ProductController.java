@@ -26,7 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("${api.prefix}/products")
@@ -103,8 +105,8 @@ public class ProductController {
 
 //Postman
 //    {
-//        "name": "iphone",
-//            "price": 250.34,
+//        "name": "iphone16",
+//            "price": 250.000,
 //            "thumbnail": "",
 //            "description": "Test product",
 //            "category_id": 1
@@ -122,7 +124,9 @@ public class ProductController {
                        .contentType(MediaType.IMAGE_JPEG)
                        .body(resource);
             }else {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(new UrlResource(Paths.get("uploads/notfound.jpg").toUri()));
             }
 
         } catch (Exception e) {
@@ -160,6 +164,21 @@ public class ProductController {
             Product existingProduct = productService.getProductById(productId);
             return ResponseEntity.ok(ProductResponse.fromProduct(existingProduct));
         }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/by-ids")
+    public ResponseEntity<?> getProductsByIds(@RequestParam("ids") String ids) {
+        //eg: 1,3,5,7
+        try {
+            // Tách chuỗi ids thành một mảng các số nguyên
+            List<Long> productIds = Arrays.stream(ids.split(","))
+                    .map(Long::parseLong)
+                    .collect(Collectors.toList());
+            List<Product> products = productService.findProductsByIds(productIds);
+            return ResponseEntity.ok(products);
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
