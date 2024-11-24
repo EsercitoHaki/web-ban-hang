@@ -40,7 +40,7 @@ public class OrderDetailController {
             @Valid @PathVariable("id") Long id){
         try {
             OrderDetail orderDetail = orderDetailService.getOrderDetail(id);
-            return ResponseEntity.ok(OrderDetailResponse.fromOrderDetail(orderDetail));
+            return ResponseEntity.ok().body(OrderDetailResponse.fromOrderDetail(orderDetail));
         }catch (Exception e)
         {
             throw new RuntimeException(e);
@@ -66,7 +66,7 @@ public class OrderDetailController {
             @RequestBody OrderDetailDTO orderDetailData){
         try {
             OrderDetail orderDetail = orderDetailService.updateOrderDetail(id, orderDetailData);
-            return ResponseEntity.ok(orderDetail);
+            return ResponseEntity.ok().body(orderDetail);
         }
         catch (Exception e)
         {

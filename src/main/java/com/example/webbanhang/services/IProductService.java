@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public interface IProductService {
@@ -26,4 +27,5 @@ public interface IProductService {
             ProductImageDTO productImageDTO) throws Exception;
 
     String storeFile(MultipartFile file) throws IOException;
+    List<Product> findProductsByIds(List<Long> productIds);
 }
