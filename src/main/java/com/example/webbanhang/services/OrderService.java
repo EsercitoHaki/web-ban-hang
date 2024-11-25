@@ -3,12 +3,16 @@ package com.example.webbanhang.services;
 
 import com.example.webbanhang.dtos.CartItemDTO;
 import com.example.webbanhang.dtos.OrderDTO;
+import com.example.webbanhang.dtos.OrderDetailDTO;
+import com.example.webbanhang.dtos.OrderWithDetailsDTO;
 import com.example.webbanhang.exceptions.DataNotFoundException;
 import com.example.webbanhang.models.*;
 import com.example.webbanhang.repositories.OrderDetailRepository;
 import com.example.webbanhang.repositories.OrderRepository;
 import com.example.webbanhang.repositories.ProductRepository;
 import com.example.webbanhang.repositories.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -87,7 +91,27 @@ public class OrderService implements IOrderService{
         orderDetailRepository.saveAll(orderDetails);
         return order;
     }
+    @Transactional
+    public Order updateOrderWithDetails(OrderWithDetailsDTO orderWithDetailsDTO) {
+        modelMapper.typeMap(OrderWithDetailsDTO.class, Order.class)
+                .addMappings(mapper -> mapper.skip(Order::setId));
+        Order order = new Order();
+        modelMapper.map(orderWithDetailsDTO, order);
+        Order savedOrder = orderRepository.save(order);
 
+        // Set the order for each order detail
+        for (OrderDetailDTO orderDetailDTO : orderWithDetailsDTO.getOrderDetailDTOS()) {
+            //orderDetail.setOrder(OrderDetail);
+        }
+
+        // Save or update the order details
+        List<OrderDetail> savedOrderDetails = orderDetailRepository.saveAll(order.getOrderDetails());
+
+        // Set the updated order details for the order
+        savedOrder.setOrderDetails(savedOrderDetails);
+
+        return savedOrder;
+    }
     @Override
     public Order getOrder(Long id) {
         Order selectedOrder = orderRepository.findById(id).orElse(null);
@@ -122,9 +146,13 @@ public class OrderService implements IOrderService{
             orderRepository.save(order);
         }
     }
-
     @Override
     public List<Order> findByUserId(Long userId) {
         return orderRepository.findByUserId(userId);
+    }
+
+    @Override
+    public Page<Order> getOrdersByKeyword(String keyword, Pageable pageable) {
+        return orderRepository.findByKeyword(keyword, pageable);
     }
 }

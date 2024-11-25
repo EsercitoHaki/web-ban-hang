@@ -56,9 +56,9 @@ public class User extends BaseEntity implements UserDetails {
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority("ROLE_"+getRole().getName().toUpperCase()));
         //authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
         return authorityList;
     }
-
     @Override
     public String getUsername() {
         return phoneNumber;

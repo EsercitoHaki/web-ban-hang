@@ -6,6 +6,7 @@ import com.example.webbanhang.models.User;
 import com.example.webbanhang.responses.LoginResponse;
 import com.example.webbanhang.responses.RegisterResponse;
 import com.example.webbanhang.responses.UserResponse;
+import com.example.webbanhang.services.IUserService;
 import com.example.webbanhang.services.UserService;
 import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.utils.MessageKeys;
@@ -23,22 +24,27 @@ import java.util.List;
 @RequestMapping("${api.prefix}/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
+    private final IUserService userService;
     private final LocalizationUtils localizationUtils;
 
     @PostMapping("/register")
+    //can we register an "admin" user ?
     public ResponseEntity<RegisterResponse> createUser(
             @Valid @RequestBody UserDTO userDTO,
-            BindingResult result) {
+            BindingResult result
+    ) {
         RegisterResponse registerResponse = new RegisterResponse();
+
         if (result.hasErrors()) {
             List<String> errorMessages = result.getFieldErrors()
                     .stream()
                     .map(FieldError::getDefaultMessage)
                     .toList();
+
             registerResponse.setMessage(errorMessages.toString());
             return ResponseEntity.badRequest().body(registerResponse);
         }
+
         if (!userDTO.getPassword().equals(userDTO.getRetypePassword())) {
             registerResponse.setMessage(localizationUtils.getLocalizedMessage(MessageKeys.PASSWORD_NOT_MATCH));
             return ResponseEntity.badRequest().body(registerResponse);
@@ -57,22 +63,21 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
-            @Valid @RequestBody UserLoginDTO userLoginDTO) {
-        //Kiểm tra thông tin đăng nhập và sinh ra token
+            @Valid @RequestBody UserLoginDTO userLoginDTO
+    ) {
+        // Kiểm tra thông tin đăng nhập và sinh token
         try {
             String token = userService.login(
                     userLoginDTO.getPhoneNumber(),
                     userLoginDTO.getPassword(),
-                    userLoginDTO.getRoleId() == null? 1 : userLoginDTO.getRoleId()
+                    userLoginDTO.getRoleId() == null ? 1 : userLoginDTO.getRoleId()
             );
-            //Tra ve token trong response
+            // Trả về token trong response
             return ResponseEntity.ok(LoginResponse.builder()
-                           .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_SUCCESSFULLY))
-                           .token(token)
+                    .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_SUCCESSFULLY))
+                    .token(token)
                     .build());
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(
                     LoginResponse.builder()
                             .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
@@ -80,41 +85,34 @@ public class UserController {
             );
         }
     }
-
     @PostMapping("/details")
     public ResponseEntity<UserResponse> getUserDetails(
             @RequestHeader("Authorization") String authorizationHeader
-    )
-    {
+    ) {
         try {
-            String extractedToken = authorizationHeader.substring(7);
+            String extractedToken = authorizationHeader.substring(7); // Loại bỏ "Bearer " từ chuỗi token
             User user = userService.getUserDetailsFromToken(extractedToken);
             return ResponseEntity.ok(UserResponse.fromUser(user));
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
-
     @PutMapping("/details/{userId}")
     public ResponseEntity<UserResponse> updateUserDetails(
             @PathVariable Long userId,
-            @RequestBody UpdateUserDTO updateUserDTO,
+            @RequestBody UpdateUserDTO updatedUserDTO,
             @RequestHeader("Authorization") String authorizationHeader
-    )
-    {
+    ) {
         try {
             String extractedToken = authorizationHeader.substring(7);
             User user = userService.getUserDetailsFromToken(extractedToken);
-
-            if (user.getId() != userId)
-            {
+            // Ensure that the user making the request matches the user being updated
+            if (user.getId() != userId) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
-            User updatedUser = userService.updateUser(userId, updateUserDTO);
+            User updatedUser = userService.updateUser(userId, updatedUserDTO);
             return ResponseEntity.ok(UserResponse.fromUser(updatedUser));
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }

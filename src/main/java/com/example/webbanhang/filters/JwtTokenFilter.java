@@ -65,22 +65,38 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
 
     }
-    private boolean isBypassToken(@NonNull  HttpServletRequest request) {
-
+    private boolean isBypassToken(@NonNull HttpServletRequest request) {
         final List<Pair<String, String>> bypassTokens = Arrays.asList(
                 Pair.of(String.format("%s/roles", apiPrefix), "GET"),
+                Pair.of(String.format("%s/healthcheck/health", apiPrefix), "GET"),
+                Pair.of(String.format("%s/roles", apiPrefix), "GET"),
                 Pair.of(String.format("%s/products", apiPrefix), "GET"),
-                Pair.of(String.format("%s/orders", apiPrefix), "GET"),
                 Pair.of(String.format("%s/categories", apiPrefix), "GET"),
                 Pair.of(String.format("%s/users/register", apiPrefix), "POST"),
                 Pair.of(String.format("%s/users/login", apiPrefix), "POST")
         );
-        for(Pair<String, String> bypassToken: bypassTokens) {
-            if (request.getServletPath().contains(bypassToken.getFirst()) &&
-                    request.getMethod().equals(bypassToken.getSecond())) {
+
+        String requestPath = request.getServletPath();
+        String requestMethod = request.getMethod();
+
+        if (requestPath.startsWith(String.format("/%s/orders", apiPrefix))
+                && requestMethod.equals("GET")) {
+            // Check if the requestPath matches the desired pattern
+            if (requestPath.matches(String.format("/%s/orders/\\d+", apiPrefix))) {
+                return true;
+            }
+            // If the requestPath is just "%s/orders", return true
+            if (requestPath.equals(String.format("/%s/orders", apiPrefix))) {
                 return true;
             }
         }
+        for (Pair<String, String> bypassToken : bypassTokens) {
+            if (requestPath.contains(bypassToken.getFirst())
+                    && requestMethod.equals(bypassToken.getSecond())) {
+                return true;
+            }
+        }
+
         return false;
     }
 }

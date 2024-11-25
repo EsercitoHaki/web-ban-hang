@@ -6,6 +6,7 @@ import com.example.webbanhang.models.Category;
 import com.example.webbanhang.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -15,14 +16,17 @@ import java.util.List;
 public class CategoryService implements ICategoryService{
     private final CategoryRepository categoryRepository;
     @Override
+    @Transactional
     public Category createCategory(CategoryDTO categoryDTO) {
-        Category newCategory = Category.builder()
-                .name(categoryDTO.getName()).build();
+        Category newCategory = Category
+                .builder()
+                .name(categoryDTO.getName())
+                .build();
         return categoryRepository.save(newCategory);
     }
 
     @Override
-    public Category getCategoryId(long id) {
+    public Category getCategoryById(long id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
     }
@@ -33,16 +37,19 @@ public class CategoryService implements ICategoryService{
     }
 
     @Override
-    public Category updateCategory(long categoryId, CategoryDTO categoryDTO) {
-        Category existingCategory = getCategoryId(categoryId);
+    @Transactional
+    public Category updateCategory(long categoryId,
+                                   CategoryDTO categoryDTO) {
+        Category existingCategory = getCategoryById(categoryId);
         existingCategory.setName(categoryDTO.getName());
         categoryRepository.save(existingCategory);
         return existingCategory;
     }
 
     @Override
+    @Transactional
     public void deleteCategory(long id) {
-        //xoá xong
+        //xóa xong
         categoryRepository.deleteById(id);
     }
 }
