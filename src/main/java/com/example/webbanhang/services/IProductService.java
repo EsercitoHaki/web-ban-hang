@@ -28,4 +28,5 @@ public interface IProductService {
 
     String storeFile(MultipartFile file) throws IOException;
     List<Product> findProductsByIds(List<Long> productIds);
+    List<Product> findSuggestionsByProductId(Long productId) throws DataNotFoundException;
 }

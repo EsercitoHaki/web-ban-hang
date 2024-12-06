@@ -3,6 +3,7 @@ package com.example.webbanhang.controller;
 import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.dtos.ProductDTO;
 import com.example.webbanhang.dtos.ProductImageDTO;
+import com.example.webbanhang.exceptions.DataNotFoundException;
 import com.example.webbanhang.models.Product;
 import com.example.webbanhang.models.ProductImage;
 import com.example.webbanhang.responses.ProductListResponse;
@@ -24,8 +25,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +42,17 @@ public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final IProductService productService;
     private final LocalizationUtils localizationUtils;
+
+
+    @GetMapping("/recommendations/{id}")
+    public ResponseEntity<List<Product>> getRecommendations(@PathVariable("id") Long productId) {
+        try {
+            List<Product> suggestedProducts = productService.findSuggestionsByProductId(productId);
+            return ResponseEntity.ok(suggestedProducts);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
     @PostMapping("")
     public ResponseEntity<?> createProduct(
             @Valid @RequestBody ProductDTO productDTO,

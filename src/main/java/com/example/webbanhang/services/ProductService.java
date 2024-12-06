@@ -12,21 +12,22 @@ import com.example.webbanhang.repositories.ProductImageRepository;
 import com.example.webbanhang.repositories.ProductRepository;
 import com.example.webbanhang.responses.ProductResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -35,6 +36,7 @@ public class ProductService implements IProductService{
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductImageRepository productImageRepository;
+    private final String FLASK_API_URL = "http://localhost:5555/api?id=";
     @Override
     @Transactional
     public Product createProduct(ProductDTO productDTO) throws DataNotFoundException {
@@ -167,5 +169,25 @@ public class ProductService implements IProductService{
     @Override
     public List<Product> findProductsByIds(List<Long> productIds) {
         return productRepository.findProductsByIds(productIds);
+    }
+
+    @Override
+    public List<Product> findSuggestionsByProductId(Long productId) {
+        RestTemplate restTemplate = new RestTemplate();
+        String apiUrl = FLASK_API_URL + productId;
+
+        // Gọi Flask API để lấy danh sách ID sản phẩm gợi ý
+        ResponseEntity<List<Long>> response = restTemplate.exchange(
+                apiUrl,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Long>>() {}
+        );
+
+        // Lấy danh sách ID từ response
+        List<Long> productIds = response.getBody();
+
+        // Tìm các sản phẩm dựa trên danh sách ID
+        return findProductsByIds(productIds);
     }
 }
