@@ -36,7 +36,7 @@ public class ProductService implements IProductService{
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductImageRepository productImageRepository;
-    private final String FLASK_API_URL = "http://localhost:5555/api?id=";
+    String FLASK_API_URL = "http://localhost:5555/api?id=";
     @Override
     @Transactional
     public Product createProduct(ProductDTO productDTO) throws DataNotFoundException {
