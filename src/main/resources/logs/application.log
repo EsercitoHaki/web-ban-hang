@@ -17082,3 +17082,996 @@ Security filter chain: no match
 ************************************************************
 
 
+2024-12-07 00:12:29.085 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-07 00:12:29.088 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-12-07 00:12:29.096 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-12-07 00:13:37.477 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-12-07 00:13:37.543 [main] INFO  c.e.webbanhang.WebbanhangApplication - Starting WebbanhangApplication using Java 17.0.6 with PID 35896 (D:\Project\CDTH\BackEnd\webbanhang\target\classes started by Quan in D:\Project\CDTH\BackEnd\webbanhang)
+2024-12-07 00:13:37.546 [main] INFO  c.e.webbanhang.WebbanhangApplication - No active profile set, falling back to 1 default profile: "default"
+2024-12-07 00:13:38.940 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-07 00:13:39.091 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 143 ms. Found 7 JPA repository interfaces.
+2024-12-07 00:13:40.105 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8088 (http)
+2024-12-07 00:13:40.115 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8088"]
+2024-12-07 00:13:40.119 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-12-07 00:13:40.119 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-12-07 00:13:40.204 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-12-07 00:13:40.205 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2608 ms
+2024-12-07 00:13:40.623 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-07 00:13:40.687 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-07 00:13:40.732 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-12-07 00:13:41.063 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-07 00:13:41.092 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-12-07 00:13:41.230 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3e0704e2
+2024-12-07 00:13:41.231 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-12-07 00:13:41.248 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-07 00:13:41.249 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-12-07 00:13:42.178 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-07 00:13:42.180 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-07 00:13:42.821 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-07 00:13:42.968 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-12-07 00:13:43.733 [main] DEBUG o.s.s.a.p.PrePostAnnotationSecurityMetadataSource - @org.springframework.security.access.prepost.PreAuthorize("hasRole(\'ROLE_ADMIN\')") found on specific method: public org.springframework.http.ResponseEntity com.example.webbanhang.controller.OrderController.getOrdersByKeyword(java.lang.String,int,int)
+2024-12-07 00:13:43.735 [main] DEBUG o.s.s.a.m.DelegatingMethodSecurityMetadataSource - Caching method [CacheKey[com.example.webbanhang.controller.OrderController; public org.springframework.http.ResponseEntity com.example.webbanhang.controller.OrderController.getOrdersByKeyword(java.lang.String,int,int)]] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2024-12-07 00:13:43.912 [main] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2024-12-07 00:13:43.913 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2024-12-07 00:13:44.464 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2024-12-07 00:13:44.588 [main] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure Or [Mvc [pattern='EndpointRequestMatcher includes=[*], excludes=[], includeLinks=true']] with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, LogoutFilter, JwtTokenFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-07 00:13:44.614 [main] WARN  o.s.s.c.a.web.builders.WebSecurity - 
+
+********************************************************************
+**********        Security debugging is enabled.       *************
+**********    This may include sensitive information.  *************
+**********      Do not use in a production system!     *************
+********************************************************************
+
+
+2024-12-07 00:13:45.578 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8088"]
+2024-12-07 00:13:45.605 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8088 (http) with context path '/'
+2024-12-07 00:13:45.624 [main] INFO  c.e.webbanhang.WebbanhangApplication - Started WebbanhangApplication in 8.477 seconds (process running for 8.986)
+2024-12-07 00:14:24.153 [http-nio-8088-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-07 00:14:24.153 [http-nio-8088-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-12-07 00:14:24.155 [http-nio-8088-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2024-12-07 00:14:24.193 [http-nio-8088-exec-4] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products?keyword=&category_id=0&page=1&limit=12':
+
+org.apache.catalina.connector.RequestFacade@777b444f
+
+servletPath:/api/v1/products
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:14:24.192 [http-nio-8088-exec-3] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/categories?page=1&limit=100':
+
+org.apache.catalina.connector.RequestFacade@262a7e3f
+
+servletPath:/api/v1/categories
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:14:24.239 [http-nio-8088-exec-4] INFO  c.e.w.controller.ProductController - keyword = , category_id = 0, page = 1, limit = 12
+2024-12-07 00:14:26.165 [http-nio-8088-exec-6] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/categories?page=1&limit=100':
+
+org.apache.catalina.connector.RequestFacade@5497960
+
+servletPath:/api/v1/categories
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:14:26.165 [http-nio-8088-exec-5] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products?keyword=&category_id=0&page=1&limit=12':
+
+org.apache.catalina.connector.RequestFacade@76883473
+
+servletPath:/api/v1/products
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:14:26.167 [http-nio-8088-exec-5] INFO  c.e.w.controller.ProductController - keyword = , category_id = 0, page = 1, limit = 12
+2024-12-07 00:14:26.214 [http-nio-8088-exec-8] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/images/2fcd1763-e43a-498f-b8a6-ed0893fb92ec_2ba9ca68f312b6aea8200768edd39829.jpg':
+
+org.apache.catalina.connector.RequestFacade@4629a6da
+
+servletPath:/api/v1/products/images/2fcd1763-e43a-498f-b8a6-ed0893fb92ec_2ba9ca68f312b6aea8200768edd39829.jpg
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+sec-fetch-site: same-site
+sec-fetch-mode: no-cors
+sec-fetch-dest: image
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+cookie: sb-auth-auth-token-code-verifier=%22d77ac29b51ab34770e42fb15da4f4baaaa5b453bf2f09ca5f7f39e40e8eee20d62911eece5e1c730e5109cc89949b4bfc79e958fe8cfcd0c%22; sb-auth-auth-token=%7B%22access_token%22%3A%22eyJhbGciOiJIUzI1NiIsImtpZCI6ImFjbmNoNjFtYU1LdklvYngiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzEwMTc4NDQ2LCJpYXQiOjE3MTAxNjQwNDYsImlzcyI6Imh0dHBzOi8vcnJveHV2c3JzZGJ4YWNva3ByYXUuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjQ4ZjcwNTMzLTE2MDgtNDBhMS1iMmFjLTk0YjdiNmVjZDJkNSIsImVtYWlsIjoicXVhbnNhc3VrZTJrM0BnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7fSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTcxMDE2NDA0Nn1dLCJzZXNzaW9uX2lkIjoiZmM5ZjRhZmMtZGM4YS00MTI0LTk0MWMtNmRhOTc4MTQxYmM2In0.fdoe5hySiMVgg8WurKhOEsDrl1R-pmvULs9c33q8eBg%22%2C%22token_type%22%3A%22bearer%22%2C%22expires_in%22%3A14400%2C%22expires_at%22%3A1710178446%2C%22refresh_token%22%3A%22PoK-GtPanbFHpnv3e_PXkw%22%2C%22user%22%3A%7B%22id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22aud%22%3A%22authenticated%22%2C%22role%22%3A%22authenticated%22%2C%22email%22%3A%22quansasuke2k3%40gmail.com%22%2C%22email_confirmed_at%22%3A%222024-03-11T13%3A33%3A34.33268Z%22%2C%22phone%22%3A%22%22%2C%22confirmation_sent_at%22%3A%222024-03-11T13%3A33%3A21.780347Z%22%2C%22confirmed_at%22%3A%222024-03-11T13%3A33%3A34.33268Z%22%2C%22last_sign_in_at%22%3A%222024-03-11T13%3A34%3A06.830812465Z%22%2C%22app_metadata%22%3A%7B%22provider%22%3A%22email%22%2C%22providers%22%3A%5B%22email%22%5D%7D%2C%22user_metadata%22%3A%7B%7D%2C%22identities%22%3A%5B%7B%22identity_id%22%3A%2239e807de-4022-4b38-9368-4e1607ff468a%22%2C%22id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22user_id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22identity_data%22%3A%7B%22email%22%3A%22quansasuke2k3%40gmail.com%22%2C%22email_verified%22%3Afalse%2C%22phone_verified%22%3Afalse%2C%22sub%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%7D%2C%22provider%22%3A%22email%22%2C%22last_sign_in_at%22%3A%222024-03-11T13%3A33%3A21.778712Z%22%2C%22created_at%22%3A%222024-03-11T13%3A33%3A21.778764Z%22%2C%22updated_at%22%3A%222024-03-11T13%3A33%3A21.778764Z%22%2C%22email%22%3A%22quansasuke2k3%40gmail.com%22%7D%5D%2C%22created_at%22%3A%222024-03-11T13%3A33%3A21.775163Z%22%2C%22updated_at%22%3A%222024-03-11T13%3A34%3A06.833192Z%22%7D%7D; Idea-6d900f3f=d8512c25-d031-4f3c-8f2e-8fcf5f731224
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:14:26.214 [http-nio-8088-exec-7] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/images/5670770f-a81b-4177-bdf8-c11068dd5810_71a65b4dfbea18eb48744bd08f05ef5b.png':
+
+org.apache.catalina.connector.RequestFacade@33575be0
+
+servletPath:/api/v1/products/images/5670770f-a81b-4177-bdf8-c11068dd5810_71a65b4dfbea18eb48744bd08f05ef5b.png
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+sec-fetch-site: same-site
+sec-fetch-mode: no-cors
+sec-fetch-dest: image
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+cookie: sb-auth-auth-token-code-verifier=%22d77ac29b51ab34770e42fb15da4f4baaaa5b453bf2f09ca5f7f39e40e8eee20d62911eece5e1c730e5109cc89949b4bfc79e958fe8cfcd0c%22; sb-auth-auth-token=%7B%22access_token%22%3A%22eyJhbGciOiJIUzI1NiIsImtpZCI6ImFjbmNoNjFtYU1LdklvYngiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzEwMTc4NDQ2LCJpYXQiOjE3MTAxNjQwNDYsImlzcyI6Imh0dHBzOi8vcnJveHV2c3JzZGJ4YWNva3ByYXUuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjQ4ZjcwNTMzLTE2MDgtNDBhMS1iMmFjLTk0YjdiNmVjZDJkNSIsImVtYWlsIjoicXVhbnNhc3VrZTJrM0BnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7fSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTcxMDE2NDA0Nn1dLCJzZXNzaW9uX2lkIjoiZmM5ZjRhZmMtZGM4YS00MTI0LTk0MWMtNmRhOTc4MTQxYmM2In0.fdoe5hySiMVgg8WurKhOEsDrl1R-pmvULs9c33q8eBg%22%2C%22token_type%22%3A%22bearer%22%2C%22expires_in%22%3A14400%2C%22expires_at%22%3A1710178446%2C%22refresh_token%22%3A%22PoK-GtPanbFHpnv3e_PXkw%22%2C%22user%22%3A%7B%22id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22aud%22%3A%22authenticated%22%2C%22role%22%3A%22authenticated%22%2C%22email%22%3A%22quansasuke2k3%40gmail.com%22%2C%22email_confirmed_at%22%3A%222024-03-11T13%3A33%3A34.33268Z%22%2C%22phone%22%3A%22%22%2C%22confirmation_sent_at%22%3A%222024-03-11T13%3A33%3A21.780347Z%22%2C%22confirmed_at%22%3A%222024-03-11T13%3A33%3A34.33268Z%22%2C%22last_sign_in_at%22%3A%222024-03-11T13%3A34%3A06.830812465Z%22%2C%22app_metadata%22%3A%7B%22provider%22%3A%22email%22%2C%22providers%22%3A%5B%22email%22%5D%7D%2C%22user_metadata%22%3A%7B%7D%2C%22identities%22%3A%5B%7B%22identity_id%22%3A%2239e807de-4022-4b38-9368-4e1607ff468a%22%2C%22id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22user_id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22identity_data%22%3A%7B%22email%22%3A%22quansasuke2k3%40gmail.com%22%2C%22email_verified%22%3Afalse%2C%22phone_verified%22%3Afalse%2C%22sub%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%7D%2C%22provider%22%3A%22email%22%2C%22last_sign_in_at%22%3A%222024-03-11T13%3A33%3A21.778712Z%22%2C%22created_at%22%3A%222024-03-11T13%3A33%3A21.778764Z%22%2C%22updated_at%22%3A%222024-03-11T13%3A33%3A21.778764Z%22%2C%22email%22%3A%22quansasuke2k3%40gmail.com%22%7D%5D%2C%22created_at%22%3A%222024-03-11T13%3A33%3A21.775163Z%22%2C%22updated_at%22%3A%222024-03-11T13%3A34%3A06.833192Z%22%7D%7D; Idea-6d900f3f=d8512c25-d031-4f3c-8f2e-8fcf5f731224
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:14:26.214 [http-nio-8088-exec-9] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/images/null':
+
+org.apache.catalina.connector.RequestFacade@b3d61a1
+
+servletPath:/api/v1/products/images/null
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+sec-fetch-site: same-site
+sec-fetch-mode: no-cors
+sec-fetch-dest: image
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+cookie: sb-auth-auth-token-code-verifier=%22d77ac29b51ab34770e42fb15da4f4baaaa5b453bf2f09ca5f7f39e40e8eee20d62911eece5e1c730e5109cc89949b4bfc79e958fe8cfcd0c%22; sb-auth-auth-token=%7B%22access_token%22%3A%22eyJhbGciOiJIUzI1NiIsImtpZCI6ImFjbmNoNjFtYU1LdklvYngiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzEwMTc4NDQ2LCJpYXQiOjE3MTAxNjQwNDYsImlzcyI6Imh0dHBzOi8vcnJveHV2c3JzZGJ4YWNva3ByYXUuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjQ4ZjcwNTMzLTE2MDgtNDBhMS1iMmFjLTk0YjdiNmVjZDJkNSIsImVtYWlsIjoicXVhbnNhc3VrZTJrM0BnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7fSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTcxMDE2NDA0Nn1dLCJzZXNzaW9uX2lkIjoiZmM5ZjRhZmMtZGM4YS00MTI0LTk0MWMtNmRhOTc4MTQxYmM2In0.fdoe5hySiMVgg8WurKhOEsDrl1R-pmvULs9c33q8eBg%22%2C%22token_type%22%3A%22bearer%22%2C%22expires_in%22%3A14400%2C%22expires_at%22%3A1710178446%2C%22refresh_token%22%3A%22PoK-GtPanbFHpnv3e_PXkw%22%2C%22user%22%3A%7B%22id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22aud%22%3A%22authenticated%22%2C%22role%22%3A%22authenticated%22%2C%22email%22%3A%22quansasuke2k3%40gmail.com%22%2C%22email_confirmed_at%22%3A%222024-03-11T13%3A33%3A34.33268Z%22%2C%22phone%22%3A%22%22%2C%22confirmation_sent_at%22%3A%222024-03-11T13%3A33%3A21.780347Z%22%2C%22confirmed_at%22%3A%222024-03-11T13%3A33%3A34.33268Z%22%2C%22last_sign_in_at%22%3A%222024-03-11T13%3A34%3A06.830812465Z%22%2C%22app_metadata%22%3A%7B%22provider%22%3A%22email%22%2C%22providers%22%3A%5B%22email%22%5D%7D%2C%22user_metadata%22%3A%7B%7D%2C%22identities%22%3A%5B%7B%22identity_id%22%3A%2239e807de-4022-4b38-9368-4e1607ff468a%22%2C%22id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22user_id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22identity_data%22%3A%7B%22email%22%3A%22quansasuke2k3%40gmail.com%22%2C%22email_verified%22%3Afalse%2C%22phone_verified%22%3Afalse%2C%22sub%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%7D%2C%22provider%22%3A%22email%22%2C%22last_sign_in_at%22%3A%222024-03-11T13%3A33%3A21.778712Z%22%2C%22created_at%22%3A%222024-03-11T13%3A33%3A21.778764Z%22%2C%22updated_at%22%3A%222024-03-11T13%3A33%3A21.778764Z%22%2C%22email%22%3A%22quansasuke2k3%40gmail.com%22%7D%5D%2C%22created_at%22%3A%222024-03-11T13%3A33%3A21.775163Z%22%2C%22updated_at%22%3A%222024-03-11T13%3A34%3A06.833192Z%22%7D%7D; Idea-6d900f3f=d8512c25-d031-4f3c-8f2e-8fcf5f731224
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:14:27.755 [http-nio-8088-exec-1] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/recommendations/13':
+
+org.apache.catalina.connector.RequestFacade@67c02cf0
+
+servletPath:/api/v1/products/recommendations/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:14:27.755 [http-nio-8088-exec-3] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/13':
+
+org.apache.catalina.connector.RequestFacade@7910692b
+
+servletPath:/api/v1/products/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:24:23.373 [http-nio-8088-exec-9] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/13':
+
+org.apache.catalina.connector.RequestFacade@6f5c8145
+
+servletPath:/api/v1/products/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:24:23.396 [http-nio-8088-exec-2] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/recommendations/13':
+
+org.apache.catalina.connector.RequestFacade@66f0df93
+
+servletPath:/api/v1/products/recommendations/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:24:46.155 [http-nio-8088-exec-1] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/by-ids?ids=14,13':
+
+org.apache.catalina.connector.RequestFacade@6837ad7b
+
+servletPath:/api/v1/products/by-ids
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:24:46.179 [http-nio-8088-exec-7] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/images/5670770f-a81b-4177-bdf8-c11068dd5810_71a65b4dfbea18eb48744bd08f05ef5b.png':
+
+org.apache.catalina.connector.RequestFacade@37c377f6
+
+servletPath:/api/v1/products/images/5670770f-a81b-4177-bdf8-c11068dd5810_71a65b4dfbea18eb48744bd08f05ef5b.png
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+sec-fetch-site: same-site
+sec-fetch-mode: no-cors
+sec-fetch-dest: image
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+cookie: sb-auth-auth-token-code-verifier=%22d77ac29b51ab34770e42fb15da4f4baaaa5b453bf2f09ca5f7f39e40e8eee20d62911eece5e1c730e5109cc89949b4bfc79e958fe8cfcd0c%22; sb-auth-auth-token=%7B%22access_token%22%3A%22eyJhbGciOiJIUzI1NiIsImtpZCI6ImFjbmNoNjFtYU1LdklvYngiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzEwMTc4NDQ2LCJpYXQiOjE3MTAxNjQwNDYsImlzcyI6Imh0dHBzOi8vcnJveHV2c3JzZGJ4YWNva3ByYXUuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjQ4ZjcwNTMzLTE2MDgtNDBhMS1iMmFjLTk0YjdiNmVjZDJkNSIsImVtYWlsIjoicXVhbnNhc3VrZTJrM0BnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7fSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTcxMDE2NDA0Nn1dLCJzZXNzaW9uX2lkIjoiZmM5ZjRhZmMtZGM4YS00MTI0LTk0MWMtNmRhOTc4MTQxYmM2In0.fdoe5hySiMVgg8WurKhOEsDrl1R-pmvULs9c33q8eBg%22%2C%22token_type%22%3A%22bearer%22%2C%22expires_in%22%3A14400%2C%22expires_at%22%3A1710178446%2C%22refresh_token%22%3A%22PoK-GtPanbFHpnv3e_PXkw%22%2C%22user%22%3A%7B%22id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22aud%22%3A%22authenticated%22%2C%22role%22%3A%22authenticated%22%2C%22email%22%3A%22quansasuke2k3%40gmail.com%22%2C%22email_confirmed_at%22%3A%222024-03-11T13%3A33%3A34.33268Z%22%2C%22phone%22%3A%22%22%2C%22confirmation_sent_at%22%3A%222024-03-11T13%3A33%3A21.780347Z%22%2C%22confirmed_at%22%3A%222024-03-11T13%3A33%3A34.33268Z%22%2C%22last_sign_in_at%22%3A%222024-03-11T13%3A34%3A06.830812465Z%22%2C%22app_metadata%22%3A%7B%22provider%22%3A%22email%22%2C%22providers%22%3A%5B%22email%22%5D%7D%2C%22user_metadata%22%3A%7B%7D%2C%22identities%22%3A%5B%7B%22identity_id%22%3A%2239e807de-4022-4b38-9368-4e1607ff468a%22%2C%22id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22user_id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22identity_data%22%3A%7B%22email%22%3A%22quansasuke2k3%40gmail.com%22%2C%22email_verified%22%3Afalse%2C%22phone_verified%22%3Afalse%2C%22sub%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%7D%2C%22provider%22%3A%22email%22%2C%22last_sign_in_at%22%3A%222024-03-11T13%3A33%3A21.778712Z%22%2C%22created_at%22%3A%222024-03-11T13%3A33%3A21.778764Z%22%2C%22updated_at%22%3A%222024-03-11T13%3A33%3A21.778764Z%22%2C%22email%22%3A%22quansasuke2k3%40gmail.com%22%7D%5D%2C%22created_at%22%3A%222024-03-11T13%3A33%3A21.775163Z%22%2C%22updated_at%22%3A%222024-03-11T13%3A34%3A06.833192Z%22%7D%7D; Idea-6d900f3f=d8512c25-d031-4f3c-8f2e-8fcf5f731224
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:24:57.570 [http-nio-8088-exec-5] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/13':
+
+org.apache.catalina.connector.RequestFacade@5c8a6f6
+
+servletPath:/api/v1/products/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:24:57.583 [http-nio-8088-exec-6] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/recommendations/13':
+
+org.apache.catalina.connector.RequestFacade@676f3ed3
+
+servletPath:/api/v1/products/recommendations/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:24:58.736 [http-nio-8088-exec-9] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/by-ids?ids=14,13':
+
+org.apache.catalina.connector.RequestFacade@308d9f0
+
+servletPath:/api/v1/products/by-ids
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:25:00.999 [http-nio-8088-exec-2] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/13':
+
+org.apache.catalina.connector.RequestFacade@30f8027e
+
+servletPath:/api/v1/products/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:25:01.010 [http-nio-8088-exec-10] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/recommendations/13':
+
+org.apache.catalina.connector.RequestFacade@5a1ae2c1
+
+servletPath:/api/v1/products/recommendations/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:25:04.774 [http-nio-8088-exec-3] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/by-ids?ids=14,13':
+
+org.apache.catalina.connector.RequestFacade@2d049323
+
+servletPath:/api/v1/products/by-ids
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:25:07.269 [http-nio-8088-exec-7] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/13':
+
+org.apache.catalina.connector.RequestFacade@3e42a2b5
+
+servletPath:/api/v1/products/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:25:07.279 [http-nio-8088-exec-4] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/recommendations/13':
+
+org.apache.catalina.connector.RequestFacade@3dd0fec1
+
+servletPath:/api/v1/products/recommendations/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:25:32.475 [http-nio-8088-exec-5] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/13':
+
+org.apache.catalina.connector.RequestFacade@1a3a960e
+
+servletPath:/api/v1/products/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:25:32.530 [http-nio-8088-exec-6] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/recommendations/13':
+
+org.apache.catalina.connector.RequestFacade@a1fba90
+
+servletPath:/api/v1/products/recommendations/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:25:45.018 [http-nio-8088-exec-2] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/by-ids?ids=14,13':
+
+org.apache.catalina.connector.RequestFacade@60d4df04
+
+servletPath:/api/v1/products/by-ids
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:25:45.035 [http-nio-8088-exec-10] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/images/5670770f-a81b-4177-bdf8-c11068dd5810_71a65b4dfbea18eb48744bd08f05ef5b.png':
+
+org.apache.catalina.connector.RequestFacade@7a992ee6
+
+servletPath:/api/v1/products/images/5670770f-a81b-4177-bdf8-c11068dd5810_71a65b4dfbea18eb48744bd08f05ef5b.png
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+sec-fetch-site: same-site
+sec-fetch-mode: no-cors
+sec-fetch-dest: image
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+cookie: sb-auth-auth-token-code-verifier=%22d77ac29b51ab34770e42fb15da4f4baaaa5b453bf2f09ca5f7f39e40e8eee20d62911eece5e1c730e5109cc89949b4bfc79e958fe8cfcd0c%22; sb-auth-auth-token=%7B%22access_token%22%3A%22eyJhbGciOiJIUzI1NiIsImtpZCI6ImFjbmNoNjFtYU1LdklvYngiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzEwMTc4NDQ2LCJpYXQiOjE3MTAxNjQwNDYsImlzcyI6Imh0dHBzOi8vcnJveHV2c3JzZGJ4YWNva3ByYXUuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjQ4ZjcwNTMzLTE2MDgtNDBhMS1iMmFjLTk0YjdiNmVjZDJkNSIsImVtYWlsIjoicXVhbnNhc3VrZTJrM0BnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7fSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTcxMDE2NDA0Nn1dLCJzZXNzaW9uX2lkIjoiZmM5ZjRhZmMtZGM4YS00MTI0LTk0MWMtNmRhOTc4MTQxYmM2In0.fdoe5hySiMVgg8WurKhOEsDrl1R-pmvULs9c33q8eBg%22%2C%22token_type%22%3A%22bearer%22%2C%22expires_in%22%3A14400%2C%22expires_at%22%3A1710178446%2C%22refresh_token%22%3A%22PoK-GtPanbFHpnv3e_PXkw%22%2C%22user%22%3A%7B%22id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22aud%22%3A%22authenticated%22%2C%22role%22%3A%22authenticated%22%2C%22email%22%3A%22quansasuke2k3%40gmail.com%22%2C%22email_confirmed_at%22%3A%222024-03-11T13%3A33%3A34.33268Z%22%2C%22phone%22%3A%22%22%2C%22confirmation_sent_at%22%3A%222024-03-11T13%3A33%3A21.780347Z%22%2C%22confirmed_at%22%3A%222024-03-11T13%3A33%3A34.33268Z%22%2C%22last_sign_in_at%22%3A%222024-03-11T13%3A34%3A06.830812465Z%22%2C%22app_metadata%22%3A%7B%22provider%22%3A%22email%22%2C%22providers%22%3A%5B%22email%22%5D%7D%2C%22user_metadata%22%3A%7B%7D%2C%22identities%22%3A%5B%7B%22identity_id%22%3A%2239e807de-4022-4b38-9368-4e1607ff468a%22%2C%22id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22user_id%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%2C%22identity_data%22%3A%7B%22email%22%3A%22quansasuke2k3%40gmail.com%22%2C%22email_verified%22%3Afalse%2C%22phone_verified%22%3Afalse%2C%22sub%22%3A%2248f70533-1608-40a1-b2ac-94b7b6ecd2d5%22%7D%2C%22provider%22%3A%22email%22%2C%22last_sign_in_at%22%3A%222024-03-11T13%3A33%3A21.778712Z%22%2C%22created_at%22%3A%222024-03-11T13%3A33%3A21.778764Z%22%2C%22updated_at%22%3A%222024-03-11T13%3A33%3A21.778764Z%22%2C%22email%22%3A%22quansasuke2k3%40gmail.com%22%7D%5D%2C%22created_at%22%3A%222024-03-11T13%3A33%3A21.775163Z%22%2C%22updated_at%22%3A%222024-03-11T13%3A34%3A06.833192Z%22%7D%7D; Idea-6d900f3f=d8512c25-d031-4f3c-8f2e-8fcf5f731224
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:25:46.879 [http-nio-8088-exec-7] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/13':
+
+org.apache.catalina.connector.RequestFacade@1cb9bf9
+
+servletPath:/api/v1/products/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:25:46.889 [http-nio-8088-exec-4] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/recommendations/13':
+
+org.apache.catalina.connector.RequestFacade@1e1264ee
+
+servletPath:/api/v1/products/recommendations/13
+pathInfo:null
+headers: 
+host: localhost:8088
+connection: keep-alive
+sec-ch-ua-platform: "Windows"
+authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjAxMjM0NTY3OCIsInVzZXJJZCI6Mywic3ViIjoiMDEyMzQ1Njc4IiwiZXhwIjoxNzM2MDgzMzgxfQ.iGtTEkumd3WixbgPIxMGE3iqC6vG1tAkQpd_tHs1ojQ
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+accept: application/json, text/plain, */*
+sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"
+sec-ch-ua-mobile: ?0
+origin: http://localhost:4200
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+referer: http://localhost:4200/
+accept-encoding: gzip, deflate, br, zstd
+accept-language: en-US,en;q=0.9,vi;q=0.8
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:26:01.562 [http-nio-8088-exec-6] INFO  Spring Security Debugger - 
+
+************************************************************
+
+Request received for GET '/api/v1/products/recommendations/13':
+
+org.apache.catalina.connector.RequestFacade@71c50872
+
+servletPath:/api/v1/products/recommendations/13
+pathInfo:null
+headers: 
+content-type: application/json
+user-agent: PostmanRuntime/7.43.0
+accept: */*
+postman-token: 7d0f29ef-e99c-4379-8fef-1a3e045b53fc
+host: localhost:8088
+accept-encoding: gzip, deflate, br
+connection: keep-alive
+content-length: 143
+
+
+Security filter chain: no match
+
+
+************************************************************
+
+
+2024-12-07 00:56:10.232 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-07 00:56:10.237 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-12-07 00:56:10.240 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
