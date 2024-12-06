@@ -1,13 +1,18 @@
 package com.example.webbanhang.controller;
 
 
+import com.example.webbanhang.components.GoogleTokenUtils;
 import com.example.webbanhang.dtos.*;
+import com.example.webbanhang.models.Role;
 import com.example.webbanhang.models.User;
+import com.example.webbanhang.repositories.RoleRepository;
+import com.example.webbanhang.repositories.UserRepository;
 import com.example.webbanhang.responses.LoginResponse;
 import com.example.webbanhang.responses.RegisterResponse;
 import com.example.webbanhang.services.UserService;
 import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.utils.MessageKeys;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("${api.prefix}/users")
@@ -26,6 +33,11 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final LocalizationUtils localizationUtils;
+    private final RoleRepository roleRepository;
+    private final GoogleTokenUtils googleTokenUtils;
+    private final UserRepository userRepository;
+
+
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> createUser(
             @Valid @RequestBody UserDTO userDTO,
@@ -71,4 +83,58 @@ public class UserController {
                     .build());
         }
     }
+
+
+
+
+    @PostMapping("/google-login")
+    public ResponseEntity<String> handleGoogleLogin(@Valid @RequestBody UserDTO userDTO) {
+        try {
+            // Kiểm tra nếu tài khoản Google đã tồn tại
+            boolean exists = userService.existsByGoogleAccountId(userDTO.getGoogleAccountId());
+            if (exists) {
+                return ResponseEntity.ok("Google account already exists");
+            }
+
+            // Lưu tài khoản Google mới
+            User user = userService.createUser(userDTO);
+
+            return ResponseEntity.status(201).body("Google account registered successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+
+    public User processGoogleLogin(String googleToken) throws Exception {
+        // Decode Google Token
+        GoogleIdToken idToken = googleTokenUtils.verifyToken(googleToken);
+        if (idToken == null) {
+            throw new IllegalArgumentException("Invalid Google Token");
+        }
+
+        // Lấy thông tin từ Google Token
+        GoogleIdToken.Payload payload = idToken.getPayload();
+//        String email = payload.getEmail();
+        String name = (String) payload.get("name");
+        String googleAccountId = payload.getSubject(); // Google Account ID
+
+        // Kiểm tra nếu tài khoản Google đã tồn tại
+        Optional<User> optionalUser = userRepository.findByGoogleAccountId(Integer.parseInt(googleAccountId));
+        if (optionalUser.isPresent()) {
+            return optionalUser.get(); // Trả về user nếu đã tồn tại
+        }
+
+        // Nếu chưa tồn tại, tạo user mới và lưu vào DB
+        Role defaultRole = roleRepository.findByName("USER")
+                .orElseThrow(() -> new RuntimeException("Default role not found"));
+
+        User newUser = User.builder()
+                .fullName(name)
+                .googleAccountId(Integer.parseInt(googleAccountId)) // Chuyển đổi sang int
+                .role(defaultRole) // Quyền mặc định, ví dụ: USER
+                .build();
+
+        return userRepository.save(newUser);
+    }
+
 }

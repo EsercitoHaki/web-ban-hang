@@ -24,25 +24,25 @@ public class JwtTokenUtils {
     private int expiration; //save to an environment variable
     @Value("${jwt.secretKey}")
     private String secretKey;
-    public String generateToken(com.example.webbanhang.models.User user) throws Exception{
-        //properties => claims
+    public String generateToken(com.example.webbanhang.models.User user) throws Exception {
         Map<String, Object> claims = new HashMap<>();
-        //this.generateSecretKey();
+        claims.put("userId", user.getId()); // Thêm userId
         claims.put("phoneNumber", user.getPhoneNumber());
+        claims.put("role", user.getRole().getName()); // Nếu cần, thêm vai trò của người dùng
+
         try {
-            String token = Jwts.builder()
-                    .setClaims(claims) //how to extract claims from this ?
-                    .setSubject(user.getPhoneNumber())
-                    .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000L))
-                    .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+            return Jwts.builder()
+                    .setClaims(claims)
+                    .setSubject(user.getPhoneNumber()) // Dùng số điện thoại làm subject
+                    .setIssuedAt(new Date(System.currentTimeMillis()))
+                    .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000L)) // Thời gian hết hạn
+                    .signWith(getSignInKey(), SignatureAlgorithm.HS256) // Ký với secret key
                     .compact();
-            return token;
-        }catch (Exception e) {
-            //you can "inject" Logger, instead System.out.println
-            throw new InvalidParamException("Cannot create jwt token, error: "+e.getMessage());
-            //return null;
+        } catch (Exception e) {
+            throw new InvalidParamException("Cannot create jwt token, error: " + e.getMessage());
         }
     }
+
 
     private Key getSignInKey()
     {
