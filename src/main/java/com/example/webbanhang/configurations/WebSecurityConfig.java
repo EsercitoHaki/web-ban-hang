@@ -48,6 +48,12 @@ public class WebSecurityConfig {
                         .requestMatchers(GET,
                                 String.format("%s/products/recommendations/**", apiPrefix)).permitAll()
 
+                        .requestMatchers(POST,
+                                String.format("%s/comments/**", apiPrefix)).permitAll()
+
+                        .requestMatchers(GET,
+                                String.format("%s/comments**", apiPrefix)).permitAll()
+
                         .requestMatchers(
                                 String.format("%s/users/register", apiPrefix),
                                 String.format("%s/users/login", apiPrefix)
