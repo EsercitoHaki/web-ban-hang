@@ -3,6 +3,7 @@ package com.example.webbanhang.controller;
 import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.dtos.CategoryDTO;
 import com.example.webbanhang.models.Category;
+import com.example.webbanhang.responses.CategoryResponse;
 import com.example.webbanhang.responses.UpdateCategoryResponse;
 import com.example.webbanhang.services.CategoryService;
 import com.example.webbanhang.utils.MessageKeys;
@@ -25,30 +26,36 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService categoryService;
+    private final LocaleResolver localeResolver;
+    private final MessageSource messageSource;
     private final LocalizationUtils localizationUtils;
 
     @PostMapping("")
-    //Nếu tham số truyn vào là 1 object thì sao ? => Data Transfer Object = Request Object
-    public ResponseEntity<?> createCategory(
+    //Nếu tham số truyền vào là 1 object thì sao ? => Data Transfer Object = Request Object
+    public ResponseEntity<CategoryResponse> createCategory(
             @Valid @RequestBody CategoryDTO categoryDTO,
-            BindingResult result){
-        if (result.hasErrors()){
+            BindingResult result) {
+        CategoryResponse categoryResponse = new CategoryResponse();
+        if(result.hasErrors()) {
             List<String> errorMessages = result.getFieldErrors()
                     .stream()
                     .map(FieldError::getDefaultMessage)
                     .toList();
-            return ResponseEntity.badRequest().body(errorMessages);
+            categoryResponse.setMessage(localizationUtils.getLocalizedMessage(MessageKeys.INSERT_CATEGORY_FAILED));
+            categoryResponse.setErrors(errorMessages);
+            return ResponseEntity.badRequest().body(categoryResponse);
         }
-        categoryService.createCategory(categoryDTO);
-        return ResponseEntity.ok("Thêm mới danh mục thành công");
+        Category category = categoryService.createCategory(categoryDTO);
+        categoryResponse.setCategory(category);
+        return ResponseEntity.ok(categoryResponse);
     }
 
-    //Hiển thị tất cả các category
-    @GetMapping("") //http://localhost:8088/api/v1/categories?page=1&limit=10
+    //Hiện tất cả các categories
+    @GetMapping("")
     public ResponseEntity<List<Category>> getAllCategories(
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit
-    ){
+            @RequestParam("page")     int page,
+            @RequestParam("limit")    int limit
+    ) {
         List<Category> categories = categoryService.getAllCategories();
         return ResponseEntity.ok(categories);
     }
@@ -56,18 +63,16 @@ public class CategoryController {
     @PutMapping("/{id}")
     public ResponseEntity<UpdateCategoryResponse> updateCategory(
             @PathVariable Long id,
-            @Valid @RequestBody CategoryDTO categoryDTO,
-            HttpServletRequest request
-    ){
+            @Valid @RequestBody CategoryDTO categoryDTO
+    ) {
+        UpdateCategoryResponse updateCategoryResponse = new UpdateCategoryResponse();
         categoryService.updateCategory(id, categoryDTO);
-        return ResponseEntity.ok(UpdateCategoryResponse.builder()
-                        .message(localizationUtils.getLocalizedMessage(MessageKeys.UPDATE_CATEGORY_SUCCESSFULLY))
-                .build());
+        updateCategoryResponse.setMessage(localizationUtils.getLocalizedMessage(MessageKeys.UPDATE_CATEGORY_SUCCESSFULLY));
+        return ResponseEntity.ok(updateCategoryResponse);
     }
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable Long id){
+    public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
-        return ResponseEntity.ok("Xoá category có id: " + id + "thành công");
+        return ResponseEntity.ok(localizationUtils.getLocalizedMessage(MessageKeys.DELETE_CATEGORY_SUCCESSFULLY));
     }
 }
