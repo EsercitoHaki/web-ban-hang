@@ -76,6 +76,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Pair.of(String.format("%s/users/register", apiPrefix), "POST"),
                 Pair.of(String.format("%s/users/login", apiPrefix), "POST"),
                 Pair.of(String.format("%s/comments**", apiPrefix), "GET"),
+                Pair.of(String.format("%s/comments/reply/**", apiPrefix), "POST"),
                 Pair.of("/swagger-ui", "GET"),
                 Pair.of("/v3/api-docs", "GET"),
                 Pair.of("/swagger-resources", "GET")
@@ -83,6 +84,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         String requestPath = request.getServletPath();
         String requestMethod = request.getMethod();
+
+//        if (requestPath.matches(String.format("%s/comments/\\d+/reply", apiPrefix))
+//                && requestMethod.equals("POST")) {
+//            return true;
+//        }
 
         if (requestPath.startsWith(String.format("/%s/orders", apiPrefix))
                 && requestMethod.equals("GET")) {

@@ -73,7 +73,7 @@ public class CommentController {
         }
     }
 
-    @PostMapping("/{parentId}/reply")
+    @PostMapping("/reply/{parentId}")
     public ResponseEntity<?> replyToComment(
             @PathVariable("parentId") Long parentCommentId,
             @Valid @RequestBody CommentDTO replyDTO

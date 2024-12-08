@@ -28,6 +28,7 @@ public class CommentService implements ICommentService{
     public Comment insertComment(CommentDTO commentDTO) {
         User user = userRepository.findById(commentDTO.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
         Product product = productRepository.findById(commentDTO.getProductId())
                 .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
@@ -93,7 +94,8 @@ public class CommentService implements ICommentService{
 
         User user = userRepository.findById(replyDTO.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        Product product = parentComment.getProduct();
+        Product product = productRepository.findById(replyDTO.getProductId())
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
         Comment reply = Comment.builder()
                 .content(replyDTO.getContent())
@@ -105,13 +107,15 @@ public class CommentService implements ICommentService{
         return commentRepository.save(reply);
     }
 
-    // Helper method to map a comment with its replies recursively
     private CommentResponse mapCommentWithReplies(Comment comment) {
         List<CommentResponse> replies = comment.getReplies().stream()
                 .map(this::mapCommentWithReplies)
                 .collect(Collectors.toList());
 
+        // Tạo đối tượng CommentResponse từ comment hiện tại
         CommentResponse commentResponse = CommentResponse.fromComment(comment);
+
+        // Thêm các reply vào CommentResponse
         commentResponse.setReplies(replies);
         return commentResponse;
     }
