@@ -12,12 +12,10 @@ import com.example.webbanhang.repositories.UserRepository;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -38,7 +36,7 @@ public class UserService implements IUserService{
 
     @Override
     public boolean existsByGoogleAccountId(int googleAccountId) {
-        return userRepository.existsByGoogleAccountId(googleAccountId);
+        return userRepository.existsByGoogleAccountId(Integer.valueOf(String.valueOf(googleAccountId)));
     }
 
 
@@ -48,7 +46,7 @@ public class UserService implements IUserService{
 
         // Kiểm tra nếu tài khoản Google đã tồn tại
         if (userDTO.getGoogleAccountId() != 0) {
-            if (userRepository.existsByGoogleAccountId(userDTO.getGoogleAccountId())) {
+            if (userRepository.existsByGoogleAccountId(Integer.valueOf(String.valueOf(userDTO.getGoogleAccountId())))) {
                 throw new DataIntegrityViolationException("Google account ID already exists");
             }
         }
@@ -122,7 +120,6 @@ public class UserService implements IUserService{
 
         // Lấy thông tin từ Google Token
         GoogleIdToken.Payload payload = idToken.getPayload();
-//        String email = payload.getEmail();
         String name = (String) payload.get("name");
         int googleAccountId = Integer.parseInt(payload.getSubject()); // Google Account ID
 

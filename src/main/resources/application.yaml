@@ -37,8 +37,8 @@ spring:
             redirect-uri: '{baseUrl}/login/oauth2/code/facebook'
             scope: public_profile,email
           google:
-            client-id: YOUR_FACEBOOK_APP_ID
-            client-secret: YOUR_FACEBOOK_APP_ID
+            client-id: 
+            client-secret: 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
             redirect-uri: '{baseUrl}/login/oauth2/code/google'
             scope: profile,email
   servlet:

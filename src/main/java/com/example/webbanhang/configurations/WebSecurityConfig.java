@@ -2,7 +2,10 @@ package com.example.webbanhang.configurations;
 
 import com.example.webbanhang.filters.JwtTokenFilter;
 import com.example.webbanhang.models.Role;
+import com.example.webbanhang.models.User;
+import com.example.webbanhang.oath2.CustomerOAth2User;
 import com.example.webbanhang.oath2.CustomerOAth2UserService;
+import com.example.webbanhang.repositories.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -11,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -22,6 +27,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.HttpMethod.*;
 
@@ -31,6 +37,8 @@ import static org.springframework.http.HttpMethod.*;
 public class WebSecurityConfig {
 
     private final JwtTokenFilter jwtTokenFilter;
+
+    private final UserRepository userRepository;
 
     @Value("${api.prefix}")
     private String apiPrefix;
@@ -54,12 +62,13 @@ public class WebSecurityConfig {
                     config.setAllowCredentials(true);
                     return config;
                 }))
-                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for simplicity
-                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(auth -> {
-                    auth
+                    .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for simplicity
+                    .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                    .authorizeHttpRequests(auth -> {
+                        auth
                             // Public routes
-                            .requestMatchers("/oauth2/**", "/login", "/public/**").permitAll()
+                            .requestMatchers("/oauth2/**", "/login","/**", "/public/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/roles").authenticated()
                             // API routes
                             .requestMatchers(GET, String.format("%s/roles**", apiPrefix)).permitAll()
                             .requestMatchers(GET, String.format("%s/categories**", apiPrefix)).permitAll()
@@ -93,6 +102,22 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .userInfoEndpoint(userInfo -> userInfo.userService(customerOAth2UserService))
                         .successHandler((request, response, authentication) -> {
+                            String username = authentication.getName();
+                            // Lấy thông tin người dùng từ OAuth2
+                            OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
+                            String fullName = oauthUser.getAttribute("name");
+
+                            // Kiểm tra nếu người dùng đã tồn tại trong cơ sở dữ liệu
+                            Optional<User> existingUser = userRepository.findByPhoneNumber(username);
+                            if (existingUser.isEmpty()) {
+                                // Lưu thông tin người dùng mới vào cơ sở dữ liệu
+                                User newUser = new User();
+                                newUser.setPhoneNumber(username);
+                                newUser.setFullName(fullName);
+                                userRepository.save(newUser);  // Lưu vào database
+                            }
+
+                            // Tạo JWT token
                             String token = generateJwtToken(authentication);
                             response.sendRedirect("http://localhost:4200/home?token=" + token);
                         })
@@ -110,13 +135,13 @@ public class WebSecurityConfig {
     }
 
     private String generateJwtToken(Authentication authentication) {
-        String username = authentication.getName();
+        String fullName = ((CustomerOAth2User) authentication.getPrincipal()).getFullName();
 
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(fullName)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(jwtSecretKey, SignatureAlgorithm.HS512) // Dùng secretKey an toàn
+                .signWith(jwtSecretKey, SignatureAlgorithm.HS512)
                 .compact();
     }
 }

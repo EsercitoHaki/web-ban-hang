@@ -83,12 +83,9 @@ public class UserController {
                     .build());
         }
     }
-
-
-
-
+    // Method trong UserController để xử lý đăng nhập Google
     @PostMapping("/google-login")
-    public ResponseEntity<String> handleGoogleLogin(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<String> handleGoogleLogin(@RequestBody UserDTO userDTO) {
         try {
             // Kiểm tra nếu tài khoản Google đã tồn tại
             boolean exists = userService.existsByGoogleAccountId(userDTO.getGoogleAccountId());
@@ -99,42 +96,10 @@ public class UserController {
             // Lưu tài khoản Google mới
             User user = userService.createUser(userDTO);
 
+            // Gửi phản hồi thành công
             return ResponseEntity.status(201).body("Google account registered successfully");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
-
-    public User processGoogleLogin(String googleToken) throws Exception {
-        // Decode Google Token
-        GoogleIdToken idToken = googleTokenUtils.verifyToken(googleToken);
-        if (idToken == null) {
-            throw new IllegalArgumentException("Invalid Google Token");
-        }
-
-        // Lấy thông tin từ Google Token
-        GoogleIdToken.Payload payload = idToken.getPayload();
-//        String email = payload.getEmail();
-        String name = (String) payload.get("name");
-        String googleAccountId = payload.getSubject(); // Google Account ID
-
-        // Kiểm tra nếu tài khoản Google đã tồn tại
-        Optional<User> optionalUser = userRepository.findByGoogleAccountId(Integer.parseInt(googleAccountId));
-        if (optionalUser.isPresent()) {
-            return optionalUser.get(); // Trả về user nếu đã tồn tại
-        }
-
-        // Nếu chưa tồn tại, tạo user mới và lưu vào DB
-        Role defaultRole = roleRepository.findByName("USER")
-                .orElseThrow(() -> new RuntimeException("Default role not found"));
-
-        User newUser = User.builder()
-                .fullName(name)
-                .googleAccountId(Integer.parseInt(googleAccountId)) // Chuyển đổi sang int
-                .role(defaultRole) // Quyền mặc định, ví dụ: USER
-                .build();
-
-        return userRepository.save(newUser);
-    }
-
 }

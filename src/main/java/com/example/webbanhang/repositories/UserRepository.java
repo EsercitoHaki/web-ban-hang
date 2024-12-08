@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    boolean existsByGoogleAccountId(int googleAccountId);
-    Optional<User> findByGoogleAccountId(int googleAccountId);
+    boolean existsByGoogleAccountId(Integer googleAccountId);
+    Optional<User> findByGoogleAccountId(Integer googleAccountId);
 
     boolean existsByPhoneNumber(String phoneNumber);
     Optional<User> findByPhoneNumber(String phoneNumber) throws UsernameNotFoundException;

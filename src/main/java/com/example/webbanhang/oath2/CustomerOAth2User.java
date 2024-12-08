@@ -24,10 +24,10 @@ public class CustomerOAth2User implements OAuth2User {
 
     @Override
     public String getName() {
-        return (String) auth2User.getAttributes().get("name");
+        return auth2User.getAttribute("name");
     }
 
     public String getFullName() {
-        return (String) auth2User.getAttributes().get("name");
+        return auth2User.getAttribute("name");
     }
 }
