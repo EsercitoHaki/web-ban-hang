@@ -17,4 +17,7 @@ public class CommentDTO {
 
     @JsonProperty("content")
     private String content;
+
+    @JsonProperty("parent_id")
+    private Long parentId;
 }

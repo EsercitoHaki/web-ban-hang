@@ -22,19 +22,28 @@ public class CommentService implements ICommentService{
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+
     @Override
     @Transactional
     public Comment insertComment(CommentDTO commentDTO) {
-        User user = userRepository.findById(commentDTO.getUserId()).orElse(null);
-        Product product = productRepository.findById(commentDTO.getProductId()).orElse(null);
-        if (user == null || product == null) {
-            throw new IllegalArgumentException("User or product not found");
+        User user = userRepository.findById(commentDTO.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Product product = productRepository.findById(commentDTO.getProductId())
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        Comment parentComment = null;
+        if (commentDTO.getParentId() != null) {
+            parentComment = commentRepository.findById(commentDTO.getParentId())
+                    .orElseThrow(() -> new IllegalArgumentException("Parent comment not found"));
         }
+
         Comment newComment = Comment.builder()
                 .user(user)
                 .product(product)
                 .content(commentDTO.getContent())
+                .parent(parentComment)
                 .build();
+
         return commentRepository.save(newComment);
     }
 
@@ -57,15 +66,53 @@ public class CommentService implements ICommentService{
     public List<CommentResponse> getCommentsByUserAndProduct(Long userId, Long productId) {
         List<Comment> comments = commentRepository.findByUserIdAndProductId(userId, productId);
         return comments.stream()
-                .map(comment -> CommentResponse.fromComment(comment))
+                .map(CommentResponse::fromComment)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<CommentResponse> getCommentsByProduct(Long productId) {
-        List<Comment> comments = commentRepository.findByProductId(productId);
+        List<Comment> comments = commentRepository.findByProductIdAndParentIsNull(productId);
         return comments.stream()
-                .map(comment -> CommentResponse.fromComment(comment))
+                .map(CommentResponse::fromComment)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CommentResponse> getCommentsWithRepliesByProduct(Long productId) {
+        List<Comment> comments = commentRepository.findByProductIdAndParentIsNull(productId);
+        return comments.stream()
+                .map(this::mapCommentWithReplies)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Comment replyToComment(Long parentCommentId, CommentDTO replyDTO) throws DataNotFoundException {
+        Comment parentComment = commentRepository.findById(parentCommentId)
+                .orElseThrow(() -> new DataNotFoundException("Parent comment not found"));
+
+        User user = userRepository.findById(replyDTO.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Product product = parentComment.getProduct();
+
+        Comment reply = Comment.builder()
+                .content(replyDTO.getContent())
+                .parent(parentComment)
+                .user(user)
+                .product(product)
+                .build();
+
+        return commentRepository.save(reply);
+    }
+
+    // Helper method to map a comment with its replies recursively
+    private CommentResponse mapCommentWithReplies(Comment comment) {
+        List<CommentResponse> replies = comment.getReplies().stream()
+                .map(this::mapCommentWithReplies)
+                .collect(Collectors.toList());
+
+        CommentResponse commentResponse = CommentResponse.fromComment(comment);
+        commentResponse.setReplies(replies);
+        return commentResponse;
     }
 }
