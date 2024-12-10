@@ -2,9 +2,11 @@ package com.example.webbanhang.controller;
 
 
 import com.example.webbanhang.dtos.*;
+import com.example.webbanhang.models.Token;
 import com.example.webbanhang.models.User;
 import com.example.webbanhang.responses.LoginResponse;
 import com.example.webbanhang.responses.RegisterResponse;
+import com.example.webbanhang.responses.UserListResponse;
 import com.example.webbanhang.responses.UserResponse;
 import com.example.webbanhang.services.IUserService;
 import com.example.webbanhang.services.UserService;
@@ -12,11 +14,17 @@ import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.utils.MessageKeys;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import java.nio.file.Paths;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -26,6 +34,62 @@ import java.util.List;
 public class UserController {
     private final IUserService userService;
     private final LocalizationUtils localizationUtils;
+
+
+    @GetMapping("")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> getAllUser(
+            @RequestParam(defaultValue = "", required = false) String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ){
+        try {
+            // Tạo Pageable từ thông tin trang và giới hạn
+            PageRequest pageRequest = PageRequest.of(
+                    page, limit,
+                    //Sort.by("createdAt").descending()
+                    Sort.by("id").ascending()
+            );
+            Page<UserResponse> userPage = userService.findAll(keyword, pageRequest)
+                    .map(UserResponse::fromUser);
+
+            // Lấy tổng số trang
+            int totalPages = userPage.getTotalPages();
+            List<UserResponse> userResponses = userPage.getContent();
+            return ResponseEntity.ok(UserListResponse
+                    .builder()
+                    .users(userResponses)
+                    .totalPages(totalPages)
+                    .build());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+//    @PostMapping("/refreshToken")
+//    public ResponseEntity<LoginResponse> refreshToken(
+//            @Valid @RequestBody RefreshTokenDTO refreshTokenDTO
+//    ) {
+//        try {
+//            User userDetail = userService.getUserDetailsFromRefreshToken(refreshTokenDTO.getRefreshToken());
+//            Token jwtToken = tokenService.refreshToken(refreshTokenDTO.getRefreshToken(), userDetail);
+//            return ResponseEntity.ok(LoginResponse.builder()
+//                    .message("Refresh token successfully")
+//                    .token(jwtToken.getToken())
+//                    .tokenType(jwtToken.getTokenType())
+//                    .refreshToken(jwtToken.getRefreshToken())
+//                    .username(userDetail.getUsername())
+//                    .roles(userDetail.getAuthorities().stream().map(item -> item.getAuthority()).toList())
+//                    .id(userDetail.getId())
+//                    .build());
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(
+//                    LoginResponse.builder()
+//                            .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
+//                            .build()
+//            );
+//        }
+//    }
 
     @PostMapping("/register")
     //can we register an "admin" user ?

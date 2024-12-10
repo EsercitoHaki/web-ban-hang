@@ -23,8 +23,14 @@ public class Token {
     @Column(name = "token_type", length = 50)
     private String tokenType;
 
+//    @Column(name = "refresh_token", length = 255)
+//    private String refreshToken;
+
     @Column(name = "expiration_date", length = 255)
     private LocalDateTime expirationDate;
+
+//    @Column(name = "refresh_expiration_date")
+//    private LocalDateTime refreshExpirationDate;
 
     private boolean revoked;
 

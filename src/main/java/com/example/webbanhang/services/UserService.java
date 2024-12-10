@@ -5,14 +5,18 @@ import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.dtos.UpdateUserDTO;
 import com.example.webbanhang.dtos.UserDTO;
 import com.example.webbanhang.exceptions.DataNotFoundException;
+import com.example.webbanhang.exceptions.InvalidPasswordException;
 import com.example.webbanhang.exceptions.PremissionDenyException;
 import com.example.webbanhang.models.Role;
+import com.example.webbanhang.models.Token;
 import com.example.webbanhang.models.User;
 import com.example.webbanhang.repositories.RoleRepository;
 import com.example.webbanhang.repositories.UserRepository;
 import com.example.webbanhang.utils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,6 +36,36 @@ public class UserService implements IUserService{
     private final JwtTokenUtils jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
     private final LocalizationUtils localizationUtils;
+//    @Override
+//    public User getUserDetailsFromRefreshToken(String refreshToken) throws Exception {
+//        Token existingToken = tokenRepository.findByRefreshToken(refreshToken);
+//        return getUserDetailsFromToken(existingToken.getToken());
+//    }
+
+    @Override
+    public Page<User> findAll(String keyword, Pageable pageable) throws Exception {
+        return userRepository.findAll(keyword, pageable);
+    }
+
+    @Override
+    @Transactional
+    public void resetPassword(Long userId, String newPassword) throws InvalidPasswordException, DataNotFoundException {
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        existingUser.setPassword(encodedPassword);
+        userRepository.save(existingUser);
+        //reset password => clear token
+    }
+
+    @Override
+    @Transactional
+    public void blockOrEnable(Long userId, Boolean active) throws DataNotFoundException {
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
+        existingUser.setActive(active);
+        userRepository.save(existingUser);
+    }
     @Override
     @Transactional
     public User createUser(UserDTO userDTO) throws Exception {
