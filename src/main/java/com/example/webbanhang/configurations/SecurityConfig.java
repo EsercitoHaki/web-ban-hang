@@ -12,10 +12,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.web.reactive.function.client.WebClient;
+
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private final WebClient userInfoClient;
     private final UserRepository userRepository;
     //user's detail object
     @Bean
@@ -42,5 +46,9 @@ public class SecurityConfig {
             AuthenticationConfiguration config
     ) throws Exception {
         return config.getAuthenticationManager();
+    }
+    @Bean
+    public OpaqueTokenIntrospector introspector() {
+        return new GoogleOpaqueTokenIntrospector(userInfoClient);
     }
 }

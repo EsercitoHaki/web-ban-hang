@@ -13,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserDTO {
+public class UserDTO extends SocialAccountDTO {
     @JsonProperty("fullname")
     private String fullName;
 
@@ -33,10 +33,10 @@ public class UserDTO {
     private Date dateOfBirth;
 
     @JsonProperty("facebook_account_id")
-    private int facebookAccountId;
+    private String facebookAccountId;
 
     @JsonProperty("google_account_id")
-    private int googleAccountId;
+    private String googleAccountId;
 
     @NotNull(message = "Role ID là bắt buộc")
     @JsonProperty("role_id")

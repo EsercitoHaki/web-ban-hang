@@ -4,6 +4,7 @@ import com.example.webbanhang.components.JwtTokenUtils;
 import com.example.webbanhang.components.LocalizationUtils;
 import com.example.webbanhang.dtos.UpdateUserDTO;
 import com.example.webbanhang.dtos.UserDTO;
+import com.example.webbanhang.dtos.UserLoginDTO;
 import com.example.webbanhang.exceptions.DataNotFoundException;
 import com.example.webbanhang.exceptions.PremissionDenyException;
 import com.example.webbanhang.models.Role;
@@ -31,6 +32,12 @@ public class UserService implements IUserService{
     private final JwtTokenUtils jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
     private final LocalizationUtils localizationUtils;
+
+    @Override
+    public boolean existsByGoogleAccountId(int googleAccountId) {
+        return false;
+    }
+
     @Override
     @Transactional
     public User createUser(UserDTO userDTO) throws Exception {
@@ -60,8 +67,7 @@ public class UserService implements IUserService{
 
         newUser.setRole(role);
 
-        // Kiểm tra nếu có accountId, không yêu cầu password
-        if (userDTO.getFacebookAccountId() == 0 && userDTO.getGoogleAccountId() == 0) {
+        if (!userDTO.isSocialLogin()) {
             String password = userDTO.getPassword();
             String encodedPassword = passwordEncoder.encode(password);
             newUser.setPassword(encodedPassword);
@@ -82,12 +88,10 @@ public class UserService implements IUserService{
         //return optionalUser.get();//muốn trả JWT token ?
         User existingUser = optionalUser.get();
         //check password
-        if (existingUser.getFacebookAccountId() == 0
-                && existingUser.getGoogleAccountId() == 0) {
             if(!passwordEncoder.matches(password, existingUser.getPassword())) {
                 throw new BadCredentialsException(localizationUtils.getLocalizedMessage(MessageKeys.WRONG_PHONE_PASSWORD));
             }
-        }
+
         Optional<Role> optionalRole = roleRepository.findById(roleId);
         if(optionalRole.isEmpty() || !roleId.equals(existingUser.getRole().getId())) {
             throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.ROLE_DOES_NOT_EXISTS));
@@ -131,10 +135,10 @@ public class UserService implements IUserService{
         if (updatedUserDTO.getDateOfBirth() != null) {
             existingUser.setDateOfBirth(updatedUserDTO.getDateOfBirth());
         }
-        if (updatedUserDTO.getFacebookAccountId() > 0) {
+        if (updatedUserDTO.isFacebookAccountIdValid()) {
             existingUser.setFacebookAccountId(updatedUserDTO.getFacebookAccountId());
         }
-        if (updatedUserDTO.getGoogleAccountId() > 0) {
+        if (updatedUserDTO.isGoogleAccountIdValid()) {
             existingUser.setGoogleAccountId(updatedUserDTO.getGoogleAccountId());
         }
 
@@ -166,6 +170,69 @@ public class UserService implements IUserService{
         } else {
             throw new Exception("User not found");
         }
+    }
+
+    @Override
+    public String loginSocial(UserLoginDTO userLoginDTO) throws Exception {
+        Optional<User> optionalUser = Optional.empty();
+        Role roleUser = roleRepository.findByName(Role.USER)
+                .orElseThrow(() -> new DataNotFoundException(
+                        localizationUtils.getLocalizedMessage(MessageKeys.ROLE_DOES_NOT_EXISTS)));
+
+        // Kiểm tra Google Account ID
+        if (userLoginDTO.isGoogleAccountIdValid()) {
+            optionalUser = userRepository.findByGoogleAccountId(userLoginDTO.getGoogleAccountId());
+
+            // Tạo người dùng mới nếu không tìm thấy
+            if (optionalUser.isEmpty()) {
+                User newUser = User.builder()
+                        .fullName(Optional.ofNullable(userLoginDTO.getFullname()).orElse(""))
+                        .email(Optional.ofNullable(userLoginDTO.getEmail()).orElse(""))
+                        .profileImage(Optional.ofNullable(userLoginDTO.getProfileImage()).orElse(""))
+                        .role(roleUser)
+                        .googleAccountId(userLoginDTO.getGoogleAccountId())
+                        .password("") // Mật khẩu trống cho đăng nhập mạng xã hội
+                        .active(true)
+                        .build();
+
+                // Lưu người dùng mới
+                newUser = userRepository.save(newUser);
+                optionalUser = Optional.of(newUser);
+            }
+        }
+        // Kiểm tra Facebook Account ID
+        else if (userLoginDTO.isFacebookAccountIdValid()) {
+            optionalUser = userRepository.findByFacebookAccountId(userLoginDTO.getFacebookAccountId());
+
+            // Tạo người dùng mới nếu không tìm thấy
+            if (optionalUser.isEmpty()) {
+                User newUser = User.builder()
+                        .fullName(Optional.ofNullable(userLoginDTO.getFullname()).orElse(""))
+                        .email(Optional.ofNullable(userLoginDTO.getEmail()).orElse(""))
+                        .profileImage(Optional.ofNullable(userLoginDTO.getProfileImage()).orElse(""))
+                        .role(roleUser)
+                        .facebookAccountId(userLoginDTO.getFacebookAccountId())
+                        .password("") // Mật khẩu trống cho đăng nhập mạng xã hội
+                        .active(true)
+                        .build();
+
+                // Lưu người dùng mới
+                newUser = userRepository.save(newUser);
+                optionalUser = Optional.of(newUser);
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid social account information.");
+        }
+
+        User user = optionalUser.get();
+
+        // Kiểm tra nếu tài khoản bị khóa
+        if (!user.isActive()) {
+            throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.USER_IS_LOCKED));
+        }
+
+        // Tạo JWT token cho người dùng
+        return jwtTokenUtil.generateToken(optionalUser.get());
     }
 }
 

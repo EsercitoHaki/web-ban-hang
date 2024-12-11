@@ -26,6 +26,15 @@ public class Token {
     @Column(name = "expiration_date", length = 255)
     private LocalDateTime expirationDate;
 
+    @Column(name = "refresh_expiration_date")
+    private LocalDateTime refreshExpirationDate;
+
+    @Column(name = "refresh_token", length = 255)
+    private String refreshToken;
+
+    @Column(name = "is_mobile", columnDefinition = "TINYINT(1)")
+    private boolean isMobile;
+
     private boolean revoked;
 
     private boolean expired;
@@ -33,4 +42,5 @@ public class Token {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
 }

@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.*;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -28,6 +29,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private String apiPrefix;
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtils jwtTokenUtil;
+
+
     @Override
     protected void doFilterInternal(@NonNull  HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
@@ -75,6 +78,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Pair.of(String.format("%s/categories", apiPrefix), "GET"),
                 Pair.of(String.format("%s/users/register", apiPrefix), "POST"),
                 Pair.of(String.format("%s/users/login", apiPrefix), "POST"),
+                Pair.of(String.format("%s/users/refreshToken", apiPrefix), "POST"),
+                Pair.of(String.format("%s/users/auth/social-login", apiPrefix), "GET"),
+                Pair.of(String.format("%s/users/auth/social/callback", apiPrefix), "GET"),
+                Pair.of(String.format("%s/users/auth/social-login**", apiPrefix), "GET"),
+                Pair.of(String.format("%s/users/auth/social/callback**", apiPrefix), "GET"),
                 Pair.of("/swagger-ui", "GET"),
                 Pair.of("/v3/api-docs", "GET"),
                 Pair.of("/swagger-resources", "GET")
@@ -94,6 +102,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 return true;
             }
         }
+        if (requestPath.startsWith(String.format("%s/users/auth/social/callback", apiPrefix))
+                && requestMethod.equals("GET")) {
+            return true;
+        }
         for (Pair<String, String> bypassToken : bypassTokens) {
             if (requestPath.contains(bypassToken.getFirst())
                     && requestMethod.equals(bypassToken.getSecond())) {
@@ -103,4 +115,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         return false;
     }
+
+
 }

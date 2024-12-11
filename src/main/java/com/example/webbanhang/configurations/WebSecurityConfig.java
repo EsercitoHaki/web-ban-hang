@@ -116,7 +116,10 @@ public class WebSecurityConfig {
                         .requestMatchers(GET,
                                 String.format("%s/healthcheck/**", apiPrefix)).permitAll()
 
-
+                        .requestMatchers(GET,
+                                String.format("%s/users/auth/social-login", apiPrefix)).permitAll()
+                        .requestMatchers(GET,
+                                String.format("%s/users/auth/social/callback/**", apiPrefix)).permitAll()
                         .anyRequest().authenticated();
                 })
                 .csrf(AbstractHttpConfigurer::disable);
