@@ -14,8 +14,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.boot.actuate.autoconfigure.security.reactive.EndpointRequest;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+
+import java.util.List;
 
 import static org.springframework.http.HttpMethod.*;
 
@@ -30,20 +34,32 @@ public class WebSecurityConfig {
     @Value("${api.prefix}")
     private String apiPrefix;
     @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));  // Cấu hình CORS cho frontend
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);  // Nếu sử dụng cookie/session
+        org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);  // Áp dụng CORS cho tất cả các endpoint
+        return source;
+    }
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
-        http
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 //                .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(requests -> {
                 requests
                         .requestMatchers(
                                 String.format("%s/users/register", apiPrefix),
+                                String.format("%s/users/login", apiPrefix),
                                 String.format("%s/users/login", apiPrefix)
                         )
                         .permitAll()
 
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**","/api/**", "/swagger-resources/**","login_google","%s/users/details").permitAll()
 
                         .requestMatchers(GET,
                                 String.format("%s/products/recommendations/**", apiPrefix)).permitAll()

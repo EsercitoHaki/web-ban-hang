@@ -11,7 +11,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+    // Phương thức tìm người dùng dựa trên Google Account ID
+    Optional<User> findByGoogleAccountId(String googleAccountId);
     boolean existsByPhoneNumber(String phoneNumber);
+
 
     Optional<User> findByPhoneNumber(String phoneNumber) throws UsernameNotFoundException;
 

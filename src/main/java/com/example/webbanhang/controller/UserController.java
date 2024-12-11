@@ -149,16 +149,22 @@ public class UserController {
             );
         }
     }
-    @PostMapping("/details")
-    public ResponseEntity<UserResponse> getUserDetails(
-            @RequestHeader("Authorization") String authorizationHeader
-    ) {
+    @GetMapping("/details")
+    public ResponseEntity<UserResponse> getUserDetails(@RequestHeader("Authorization") String token) {
         try {
-            String extractedToken = authorizationHeader.substring(7); // Loại bỏ "Bearer " từ chuỗi token
-            User user = userService.getUserDetailsFromToken(extractedToken);
-            return ResponseEntity.ok(UserResponse.fromUser(user));
+            // Giả sử bạn có một phương thức để lấy thông tin người dùng từ token
+            UserResponse userResponse = UserResponse.fromUser(userService.getUserDetailsFromToken(token));
+
+            // Nếu không tìm thấy người dùng, trả về mã lỗi 404
+            if (userResponse == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            // Trả về thông tin người dùng với mã thành công 200
+            return ResponseEntity.ok(userResponse);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            // Xử lý lỗi và trả về mã lỗi 500 nếu có lỗi xảy ra
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
     @PutMapping("/details/{userId}")

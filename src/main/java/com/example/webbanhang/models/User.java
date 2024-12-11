@@ -45,7 +45,7 @@ public class User extends BaseEntity implements UserDetails {
     private int facebookAccountId;
 
     @Column(name = "google_account_id")
-    private int googleAccountId;
+    private String googleAccountId;
 
     @ManyToOne
     @JoinColumn(name = "role_id")

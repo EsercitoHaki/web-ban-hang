@@ -46,7 +46,7 @@ public class UserResponse {
                 .active(user.isActive())
                 .dateOfBirth(user.getDateOfBirth())
                 .facebookAccountId(user.getFacebookAccountId())
-                .googleAccountId(user.getGoogleAccountId())
+                .googleAccountId(Integer.parseInt(user.getGoogleAccountId()))
                 .role(user.getRole())
                 .build();
     }

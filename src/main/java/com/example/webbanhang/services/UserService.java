@@ -14,22 +14,26 @@ import com.example.webbanhang.repositories.RoleRepository;
 import com.example.webbanhang.repositories.UserRepository;
 import com.example.webbanhang.utils.MessageKeys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService{
+    @Autowired
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -89,7 +93,7 @@ public class UserService implements IUserService{
                 .address(userDTO.getAddress())
                 .dateOfBirth(userDTO.getDateOfBirth())
                 .facebookAccountId(userDTO.getFacebookAccountId())
-                .googleAccountId(userDTO.getGoogleAccountId())
+                .googleAccountId(String.valueOf(userDTO.getGoogleAccountId()))
                 .active(true)
                 .build();
 
@@ -104,6 +108,46 @@ public class UserService implements IUserService{
         return userRepository.save(newUser);
     }
 
+    public User findByGoogleAccountId(String googleAccountId) {
+        // Tìm người dùng theo googleAccountId
+        return userRepository.findByGoogleAccountId(googleAccountId).orElse(null);
+    }
+
+
+    public void createGoogleUser(String googleAccountId, String fullName, String email) {
+        // Tạo người dùng mới nếu chưa tồn tại
+        User newUser = new User();
+        newUser.setGoogleAccountId(googleAccountId);
+        newUser.setFullName(fullName);
+        newUser.setPhoneNumber(email);  // Bạn có thể dùng email hoặc thêm một trường phoneNumber riêng biệt
+        newUser.setActive(true);  // Đặt người dùng thành active
+        newUser.setPassword("google_login_password");  // Tạo mật khẩu mặc định
+        newUser.setRole(new Role());  // Đặt vai trò người dùng mặc định, có thể thay đổi sau
+
+
+        // Lưu người dùng vào cơ sở dữ liệu
+        userRepository.save(newUser);
+    }
+    public User registerOrGetGoogleUser(String googleAccountId, String fullName, String email) {
+        // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
+        Optional<User> existingUser = userRepository.findByGoogleAccountId(googleAccountId);
+
+        if (existingUser.isPresent()) {
+            // Nếu tài khoản đã tồn tại, trả về người dùng hiện có
+            return existingUser.get();
+        } else {
+            // Nếu tài khoản chưa tồn tại, tạo tài khoản mới
+            User newUser = new User();
+            newUser.setGoogleAccountId(googleAccountId);
+            newUser.setFullName(fullName);
+            newUser.setPhoneNumber(email);  // Có thể sử dụng email như phoneNumber, hoặc bạn có thể tạo một trường riêng cho email
+            newUser.setActive(true);
+            newUser.setPassword(new BCryptPasswordEncoder().encode("google_login_password"));  // Mật khẩu mặc định
+            newUser.setRole(new Role());  // Thiết lập quyền mặc định cho người dùng mới
+            // Lưu người dùng vào cơ sở dữ liệu
+            return userRepository.save(newUser);
+        }
+    }
     @Override
     public String login(
             String phoneNumber,
@@ -118,7 +162,7 @@ public class UserService implements IUserService{
         User existingUser = optionalUser.get();
         //check password
         if (existingUser.getFacebookAccountId() == 0
-                && existingUser.getGoogleAccountId() == 0) {
+                && Objects.equals(existingUser.getGoogleAccountId(), "")) {
             if(!passwordEncoder.matches(password, existingUser.getPassword())) {
                 throw new BadCredentialsException(localizationUtils.getLocalizedMessage(MessageKeys.WRONG_PHONE_PASSWORD));
             }
@@ -170,7 +214,7 @@ public class UserService implements IUserService{
             existingUser.setFacebookAccountId(updatedUserDTO.getFacebookAccountId());
         }
         if (updatedUserDTO.getGoogleAccountId() > 0) {
-            existingUser.setGoogleAccountId(updatedUserDTO.getGoogleAccountId());
+            existingUser.setGoogleAccountId(String.valueOf(updatedUserDTO.getGoogleAccountId()));
         }
 
         // Update the password if it is provided in the DTO
