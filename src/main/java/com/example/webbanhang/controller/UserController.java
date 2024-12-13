@@ -108,13 +108,18 @@ public class UserController {
 
 
     @PostMapping("/details")
-    public ResponseEntity<UserResponse> getUserDetails(
+    public ResponseEntity<ResponseObject> getUserDetails(
             @RequestHeader("Authorization") String authorizationHeader
     ) {
         try {
             String extractedToken = authorizationHeader.substring(7); // Loại bỏ "Bearer " từ chuỗi token
             User user = userService.getUserDetailsFromToken(extractedToken);
-            return ResponseEntity.ok(UserResponse.fromUser(user));
+            return ResponseEntity.ok().body(ResponseObject.builder()
+                    .message("Get user's detail successfully")
+                    .data(UserResponse.fromUser(user))
+                    .status(HttpStatus.OK)
+                    .build()
+            );
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

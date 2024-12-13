@@ -53,6 +53,9 @@ public class WebSecurityConfig {
                                 String.format("%s/users/login", apiPrefix)
                         ).permitAll()
 
+                        .requestMatchers(POST,
+                                String.format("%s/users/details", apiPrefix)).permitAll()
+
                         .requestMatchers(GET,
                                 String.format("%s/roles**", apiPrefix)).permitAll()
 
@@ -115,6 +118,7 @@ public class WebSecurityConfig {
 
                         .requestMatchers(GET,
                                 String.format("%s/healthcheck/**", apiPrefix)).permitAll()
+
 
                         .requestMatchers(GET,
                                 String.format("%s/users/auth/social-login", apiPrefix)).permitAll()

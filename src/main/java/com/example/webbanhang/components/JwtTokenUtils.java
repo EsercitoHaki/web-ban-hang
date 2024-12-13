@@ -1,12 +1,14 @@
 package com.example.webbanhang.components;
 
 import com.example.webbanhang.exceptions.InvalidParamException;
+import com.example.webbanhang.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,12 +30,14 @@ public class JwtTokenUtils {
         //properties => claims
         Map<String, Object> claims = new HashMap<>();
         //this.generateSecretKey();
-        claims.put("phoneNumber", user.getPhoneNumber());
+//        claims.put("phoneNumber", user.getPhoneNumber());
+        String subject = getSubject(user);
+        claims.put("subject", subject);
         claims.put("userId", user.getId());
         try {
             String token = Jwts.builder()
                     .setClaims(claims) //how to extract claims from this ?
-                    .setSubject(user.getPhoneNumber())
+                    .subject(subject)
                     .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000L))
                     .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                     .compact();
@@ -44,6 +48,22 @@ public class JwtTokenUtils {
             //return null;
         }
     }
+
+    public String getSubject(User user) {
+        // Determine subject identifier (phone number or email)
+        String subject = user.getPhoneNumber();
+        if (subject == null || subject.isBlank()) {
+            // If phone number is null or blank, use email as subject
+            subject = user.getEmail();
+        }
+        return subject;
+    }
+
+    public String getSubject(String token) {
+        return  extractClaim(token, Claims::getSubject);
+    }
+
+
     private Key getSignInKey() {
         byte[] bytes = Decoders.BASE64.decode(secretKey);
         //Keys.hmacShaKeyFor(Decoders.BASE64.decode("TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI="));
