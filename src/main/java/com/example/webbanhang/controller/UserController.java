@@ -19,7 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -174,6 +173,28 @@ public class UserController {
             if (user.getId() != userId) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
+            User updatedUser = userService.updateUser(userId, updatedUserDTO);
+            return ResponseEntity.ok(UserResponse.fromUser(updatedUser));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/admin/details/{userId}")
+    public ResponseEntity<UserResponse> updateUserDetailsByAdmin(
+            @PathVariable Long userId,
+            @RequestBody UpdateUserDTO updatedUserDTO,
+            @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        try {
+            String extractedToken = authorizationHeader.substring(7);
+
+            User adminUser = userService.getUserDetailsFromToken(extractedToken);
+
+//            if (!adminUser.getRole().toString().equalsIgnoreCase("ADMIN")) {
+//                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//            }
+
             User updatedUser = userService.updateUser(userId, updatedUserDTO);
             return ResponseEntity.ok(UserResponse.fromUser(updatedUser));
         } catch (Exception e) {
