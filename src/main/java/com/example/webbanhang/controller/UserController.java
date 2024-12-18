@@ -181,6 +181,7 @@ public class UserController {
     }
 
     @PutMapping("/admin/details/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<UserResponse> updateUserDetailsByAdmin(
             @PathVariable Long userId,
             @RequestBody UpdateUserDTO updatedUserDTO,
