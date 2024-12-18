@@ -180,4 +180,13 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PutMapping("/block/{userId}/{active}")
+    public ResponseEntity<UserResponse> blockOrEnable(
+            @Valid @PathVariable long userId,
+            @Valid @PathVariable int active
+    ) throws Exception {
+        userService.blockOrEnable(userId, active > 0);
+        return ResponseEntity.ok().build();
+    }
 }
