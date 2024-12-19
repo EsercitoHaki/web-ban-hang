@@ -34,6 +34,12 @@ public class UserController {
     private final IUserService userService;
     private final LocalizationUtils localizationUtils;
 
+    @GetMapping("/count-by-role/{roleId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Long> getTotalUsersByRole(@PathVariable Long roleId) {
+        Long count = userService.countUsersWithRoleId(roleId);
+        return ResponseEntity.ok(count);
+    }
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

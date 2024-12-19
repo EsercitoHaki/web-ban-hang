@@ -66,6 +66,13 @@ public class UserService implements IUserService{
         existingUser.setActive(active);
         userRepository.save(existingUser);
     }
+
+    @Override
+    public Long countUsersWithRoleId(Long roleId) {
+        return userRepository.countUsersByRoleId(roleId);
+    }
+
+
     @Override
     @Transactional
     public User createUser(UserDTO userDTO) throws Exception {

@@ -21,5 +21,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "OR o.phoneNumber LIKE %:keyword%) " +
             "AND LOWER(o.role.name) = 'user'")
     Page<User> findAll(@Param("keyword") String keyword, Pageable pageable);
+
+    @Query("SELECT COUNT(u) FROM User u WHERE u.role.id = :roleId")
+    Long countUsersByRoleId(@Param("roleId") Long roleId);
+
 }
 

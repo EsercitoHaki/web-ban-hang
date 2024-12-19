@@ -18,4 +18,6 @@ public interface IUserService {
     void resetPassword(Long userId, String newPassword)
             throws InvalidPasswordException, DataNotFoundException ;
     public void blockOrEnable(Long userId, Boolean active) throws DataNotFoundException;
+
+    Long countUsersWithRoleId(Long roleId);
 }
