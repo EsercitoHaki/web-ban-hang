@@ -43,7 +43,6 @@ public class ProductController {
     private final IProductService productService;
     private final LocalizationUtils localizationUtils;
 
-
     @GetMapping("/recommendations/{id}")
     public ResponseEntity<List<Product>> getRecommendations(@PathVariable("id") Long productId) {
         try {
@@ -128,6 +127,17 @@ public class ProductController {
 //            "description": "Test product",
 //            "category_id": 1
 //    }
+
+    @DeleteMapping("/{productId}/images/{imageId}")
+    public ResponseEntity<?> deleteImage(@PathVariable("productId") Long productId, @PathVariable("imageId") Long imageId) {
+        try {
+            // Xóa ảnh khỏi sản phẩm
+            productService.deleteProductImage(imageId);
+            return ResponseEntity.ok("Image deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting image: " + e.getMessage());
+        }
+    }
 
     @GetMapping("/images/{imageName}")
     public ResponseEntity<?> viewImage(@PathVariable String imageName)

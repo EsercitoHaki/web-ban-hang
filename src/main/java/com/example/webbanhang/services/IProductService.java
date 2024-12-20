@@ -29,4 +29,5 @@ public interface IProductService {
     String storeFile(MultipartFile file) throws IOException;
     List<Product> findProductsByIds(List<Long> productIds);
     List<Product> findSuggestionsByProductId(Long productId) throws DataNotFoundException;
+    void deleteProductImage(Long imageId) throws Exception;  // Thêm phương thức này
 }

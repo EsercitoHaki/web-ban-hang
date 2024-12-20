@@ -32,11 +32,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService implements IProductService{
+public class ProductService implements IProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductImageRepository productImageRepository;
     String FLASK_API_URL = "http://localhost:5555/api?id=";
+
     @Override
     @Transactional
     public Product createProduct(ProductDTO productDTO) throws DataNotFoundException {
@@ -44,7 +45,7 @@ public class ProductService implements IProductService{
                 .findById(productDTO.getCategoryId())
                 .orElseThrow(() ->
                         new DataNotFoundException(
-                                "Cannot find category with id: "+productDTO.getCategoryId()));
+                                "Cannot find category with id: " + productDTO.getCategoryId()));
 
         Product newProduct = Product.builder()
                 .name(productDTO.getName())
@@ -59,7 +60,7 @@ public class ProductService implements IProductService{
     @Override
     public Product getProductById(long productId) throws Exception {
         Optional<Product> optionalProduct = productRepository.getDetailProduct(productId);
-        if(optionalProduct.isPresent()) {
+        if (optionalProduct.isPresent()) {
             return optionalProduct.get();
         }
         throw new DataNotFoundException("Cannot find product with id =" + productId);
@@ -74,6 +75,7 @@ public class ProductService implements IProductService{
         productsPage = productRepository.searchProducts(categoryId, keyword, pageRequest);
         return productsPage.map(ProductResponse::fromProduct);
     }
+
     @Override
     @Transactional
     public Product updateProduct(
@@ -82,14 +84,14 @@ public class ProductService implements IProductService{
     )
             throws Exception {
         Product existingProduct = getProductById(id);
-        if(existingProduct != null) {
+        if (existingProduct != null) {
             //copy các thuộc tính từ DTO -> Product
             //Có thể sử dụng ModelMapper
             Category existingCategory = categoryRepository
                     .findById(productDTO.getCategoryId())
                     .orElseThrow(() ->
                             new DataNotFoundException(
-                                    "Cannot find category with id: "+productDTO.getCategoryId()));
+                                    "Cannot find category with id: " + productDTO.getCategoryId()));
             existingProduct.setName(productDTO.getName());
             existingProduct.setCategory(existingCategory);
             existingProduct.setPrice(productDTO.getPrice());
@@ -109,9 +111,28 @@ public class ProductService implements IProductService{
     }
 
     @Override
+    @Transactional
+    public void deleteProductImage(Long imageId) throws Exception {
+        // Lấy thông tin ảnh từ database
+        ProductImage productImage = productImageRepository.findById(imageId)
+                .orElseThrow(() -> new DataNotFoundException("Cannot find image with id: " + imageId));
+
+        // Xóa ảnh khỏi database
+        productImageRepository.delete(productImage);
+
+        // Xóa ảnh khỏi thư mục lưu trữ
+        String imagePath = "uploads/" + productImage.getImageUrl();  // Giả sử ảnh lưu trong thư mục "uploads"
+        java.nio.file.Path path = Paths.get(imagePath);
+        if (Files.exists(path)) {
+            Files.delete(path);  // Xóa file ảnh khỏi hệ thống
+        }
+    }
+
+    @Override
     public boolean existsByName(String name) {
         return productRepository.existsByName(name);
     }
+
     @Override
     @Transactional
     public ProductImage createProductImage(
@@ -121,19 +142,19 @@ public class ProductService implements IProductService{
                 .findById(productId)
                 .orElseThrow(() ->
                         new DataNotFoundException(
-                                "Cannot find product with id: "+productImageDTO.getProductId()));
+                                "Cannot find product with id: " + productImageDTO.getProductId()));
         ProductImage newProductImage = ProductImage.builder()
                 .product(existingProduct)
                 .imageUrl(productImageDTO.getImageUrl())
                 .build();
         //Ko cho insert quá 5 ảnh cho 1 sản phẩm
         int size = productImageRepository.findByProductId(productId).size();
-        if(size >= ProductImage.MAXIMUM_IMAGES_PER_PRODUCT) {
+        if (size >= ProductImage.MAXIMUM_IMAGES_PER_PRODUCT) {
             throw new InvalidParamException(
                     "Number of images must be <= "
-                            +ProductImage.MAXIMUM_IMAGES_PER_PRODUCT);
+                            + ProductImage.MAXIMUM_IMAGES_PER_PRODUCT);
         }
-        if (existingProduct.getThumbnail() == null ) {
+        if (existingProduct.getThumbnail() == null) {
             existingProduct.setThumbnail(newProductImage.getImageUrl());
         }
         productRepository.save(existingProduct);
@@ -181,7 +202,8 @@ public class ProductService implements IProductService{
                 apiUrl,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<Long>>() {}
+                new ParameterizedTypeReference<List<Long>>() {
+                }
         );
 
         // Lấy danh sách ID từ response
